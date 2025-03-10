@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import { useGameStore } from "services/store";
+
 import Board from "components/Display/Display";
 import Header from "components/Header/Header";
 import Player from "components/Player/Player";
@@ -7,12 +9,11 @@ import Timer from "components/Timer/Timer";
 
 import { capitalizeFirstLetter } from "utils/String";
 
-import { useGameStore } from "services/gameStore";
-
 import "./Home.scss";
 
 export default function Home() {
-	const { turn, tour } = useGameStore();
+	const turn = useGameStore((state) => state.turn);
+	const tour = useGameStore((state) => state.tour);
 
 	useEffect(() => {
 		document.title = __APP_NAME__;

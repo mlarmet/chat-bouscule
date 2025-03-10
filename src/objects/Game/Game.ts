@@ -2,66 +2,30 @@ import Animal from "../Animal/Animal";
 import Matou from "../Animal/Matou";
 import Minou from "../Animal/Minou";
 
-import { gameStore } from "src/services/gameStore";
 import Player from "../Player/Player";
 import Board from "./Board";
 
-const config = {
-	timeShowRowInMs: 1000,
-	totalPiece: 8,
-	gris: {
-		color: {
-			// TODO : update color with lighter ones
-			row: "rgb(255, 119, 0)",
-			pick: "rgb(255,255,0)",
-			win: "rgb(0,255,0)",
-		},
-	},
-
-	jaune: {
-		color: {
-			row: "rgb(255, 119, 0)",
-			pick: "rgb(255,255,0)",
-			win: "rgb(0,255,0)",
-		},
-	},
-};
+import { gameSettings } from "services/settings";
+import { gameStore } from "services/store";
 
 export default class Game {
-	private players: Players;
-
-	private status: GameStatus = "STOPPED";
+	private players: Players = {
+		gris: new Player("gris"),
+		jaune: new Player("jaune"),
+	};
 
 	private checkedPositions: Set<string> = new Set();
 
-	private rowPlayer: PlayerType | null = null;
+	private rowPlayer?: PlayerType;
 	private rowCells: [number, number][] = [];
 
-	board: Board;
+	board = new Board();
 
 	constructor() {
 		console.log("new Game");
-
-		this.board = new Board();
-
-		this.setStatus("IDLE");
-
-		this.players = {
-			gris: new Player("gris"),
-			jaune: new Player("jaune"),
-		};
 	}
 
-	private setStatus(newStatus: GameStatus) {
-		if (this.status === newStatus) {
-			return;
-		}
-
-		console.log(`Status changé: ${newStatus}`);
-		this.status = newStatus;
-	}
-
-	init(canvasSize: number): void {
+	async init(canvasSize: number): Promise<void> {
 		console.log("Init board");
 
 		this.board.initBoard(canvasSize);
@@ -72,7 +36,7 @@ export default class Game {
 
 		this.board.drawBoard();
 
-		switch (this.status) {
+		switch (this.getStatus()) {
 			case "SELECT":
 				this.showSelectPion();
 				break;
@@ -86,15 +50,29 @@ export default class Game {
 				}
 				break;
 			case "WON":
-				if (this.rowPlayer === null) {
-					this.showAllPionsWin();
-				} else {
-					this.showRowWin();
-				}
+				this.checkIsRowOrWin();
 				break;
 			default:
 				this.setStatus("IDLE");
 		}
+
+		// let color = gameSettings.colors.win;
+
+		// this.board.drawRect(1, 1, color);
+		// this.board.drawRect(2, 2, color);
+		// this.board.drawRect(3, 3, color);
+
+		// color = gameSettings.colors.row;
+
+		// this.board.drawRect(3, 0, color);
+		// this.board.drawRect(4, 1, color);
+		// this.board.drawRect(5, 2, color);
+
+		// color = gameSettings.colors.pick;
+
+		// this.board.drawRect(0, 4, color);
+		// this.board.drawRect(2, 5, color);
+		// this.board.drawRect(5, 4, color);
 	}
 
 	getPlayersData() {
@@ -105,11 +83,21 @@ export default class Game {
 	}
 
 	private isValid(row: number, col: number) {
-		return row >= 0 && row < __CELL_COUNT__ && col >= 0 && col < __CELL_COUNT__;
+		const cellCount = gameSettings.cell.count;
+
+		return row >= 0 && row < cellCount && col >= 0 && col < cellCount;
 	}
 
 	private getMapAnimal() {
 		return gameStore.getState().mapAnimal;
+	}
+
+	private getStatus() {
+		return gameStore.getState().status;
+	}
+
+	private setStatus(status: GameStatus) {
+		gameStore.getState().setStatus(status);
 	}
 
 	private getTurn() {
@@ -286,7 +274,7 @@ export default class Game {
 	}
 
 	private getPos(eventX: number, eventY: number) {
-		const fullCellSize = this.board.cellSize + __LINE_WIDTH__;
+		const fullCellSize = this.board.cellSize + gameSettings.cell.lineWidth.base;
 
 		// Get row and col from click position
 		const row = eventX < fullCellSize ? 0 : Math.floor(eventX / fullCellSize);
@@ -305,20 +293,24 @@ export default class Game {
 
 		const player: Player = this.players[this.getTurn()];
 
+		const color = gameSettings.colors.pick;
+
 		for (const animal of this.getMapAnimal().values()) {
 			if (animal instanceof Matou || animal.player !== player.role) {
 				continue;
 			}
 
-			this.board.drawRect(animal.row, animal.col, config[player.role].color.pick);
+			this.board.drawRect(animal.row, animal.col, color);
 		}
 	}
 
 	private async showRow(): Promise<void> {
 		this.setStatus("ROW");
 
+		const color = gameSettings.colors.row;
+
 		for (const [row, col] of this.rowCells) {
-			this.board.drawRect(row, col, config[this.rowPlayer!].color.row);
+			this.board.drawRect(row, col, color);
 		}
 
 		return new Promise((resolve) => {
@@ -342,14 +334,31 @@ export default class Game {
 
 				player.transformMinouToMatou(nbMinou, nbMatou);
 
-				this.rowPlayer = null;
+				this.rowPlayer = undefined;
 				this.rowCells = [];
 
 				this.board.drawBoard();
 
 				resolve();
-			}, config.timeShowRowInMs);
+			}, gameSettings.timeShowRowInMs);
 		});
+	}
+
+	// Return true if programm need to exit
+	private async checkIsRowOrWin() {
+		if (this.isRow()) {
+			if (this.isRowWin()) {
+				this.showRowWin();
+				return true;
+			}
+
+			await this.showRow();
+		} else if (this.isAllPionsWin()) {
+			this.showAllPionsWin();
+			return true;
+		}
+
+		return false;
 	}
 
 	private isRowWin(): boolean {
@@ -361,10 +370,14 @@ export default class Game {
 	}
 
 	private showRowWin() {
+		gameStore.getState().setTimerRun(false);
+
 		this.setStatus("WON");
 
+		const color = gameSettings.colors.win;
+
 		for (const [row, col] of this.rowCells) {
-			this.board.drawRect(row, col, config[this.rowPlayer!].color.win);
+			this.board.drawRect(row, col, color);
 		}
 	}
 
@@ -392,34 +405,40 @@ export default class Game {
 		const player: Player = this.players[this.getTurn()];
 		const { minou, matou } = player.getPions();
 
-		return matou.plateau === config.totalPiece && matou.stock === 0 && minou.stock === 0 && minou.plateau === 0;
+		return matou.plateau === gameSettings.totalPiece && matou.stock === 0 && minou.stock === 0 && minou.plateau === 0;
 	}
 
 	private showAllPionsWin() {
+		gameStore.getState().setTimerRun(false);
+
 		this.setStatus("WON");
 
-		const player: Player = this.players[this.getTurn()];
+		const player: Player = this.players[this.getTurn()].role;
+
+		const color = gameSettings.colors.win;
 
 		for (const animal of this.getMapAnimal().values()) {
 			if (animal.player !== player.role) {
 				continue;
 			}
 
-			this.board.drawRect(animal.row, animal.col, config[player.role].color.win);
+			this.board.drawRect(animal.row, animal.col, color);
 		}
 	}
 
 	async play(eventX: number, eventY: number) {
 		const { row, col } = this.getPos(eventX, eventY);
 
+		const status = this.getStatus();
+
 		// Let player click on pion
-		if (this.status === "SELECT") {
+		if (status === "SELECT") {
 			this.selectPions(row, col);
 			return;
 		}
 
 		// Not ready to play for any reasons
-		if (this.status !== "IDLE") {
+		if (status !== "IDLE") {
 			return;
 		}
 
@@ -451,15 +470,8 @@ export default class Game {
 		// Wait animation end
 		await this.board.waitFinishAnimation();
 
-		if (this.isRow()) {
-			if (this.isRowWin()) {
-				this.showRowWin();
-				return;
-			}
-
-			await this.showRow();
-		} else if (this.isAllPionsWin()) {
-			this.showAllPionsWin();
+		const exit = await this.checkIsRowOrWin();
+		if (exit) {
 			return;
 		}
 

@@ -1,14 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 
-import { useGameStore } from "src/services/gameStore";
+import { useGameStore } from "services/store";
+
 import "./Timer.scss";
 
 export default function Timer() {
-	const [seconds, setSeconds] = useState(0);
+	const intervalRef = useRef<number>(undefined);
 
-	const intervalRef = useRef<number | undefined>(undefined);
+	const tour = useGameStore((state) => state.tour);
+	const status = useGameStore((state) => state.status);
+	const timerRun = useGameStore((state) => state.timerRun);
+	const resetTrigger = useGameStore((state) => state.resetTrigger);
 
-	const { tour, timerRun, setTimerRun } = useGameStore();
+	const timeElapsed = useGameStore((state) => state.timeElapsed);
+	const setTimeElapsed = useGameStore((state) => state.setTimeElapsed);
+	const setTimerRun = useGameStore((state) => state.setTimerRun);
+
+	const timerRef = useRef(timeElapsed);
+	const [timeSecs, setTimeSecs] = useState(timeElapsed);
 
 	const formatTime = (secs: number) => {
 		const hours = Math.floor(secs / 3600)
@@ -25,7 +34,11 @@ export default function Timer() {
 	useEffect(() => {
 		if (timerRun) {
 			intervalRef.current = setInterval(() => {
-				setSeconds((prev) => prev + 1);
+				setTimeSecs((prev) => {
+					const newTimer = prev + 1;
+					timerRef.current = newTimer;
+					return newTimer;
+				});
 			}, 1000);
 		} else {
 			clearInterval(intervalRef.current);
@@ -36,14 +49,35 @@ export default function Timer() {
 	}, [timerRun]);
 
 	useEffect(() => {
-		if (tour === 0) {
-			setSeconds(0);
+		if (resetTrigger > 0) {
 			setTimerRun(false);
-		} else {
-			setTimerRun(true);
+			setTimeElapsed(0);
+			// Set 0 here cause if timeElapsed not changed,
+			// timeElapsed will not being trigger
+			setTimeSecs(0);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [resetTrigger]);
+
+	useEffect(() => {
+		if (!timerRun) {
+			// Start timer on first move
+			if (tour > 0) {
+				if (status !== "WON" && status !== "STOPPED") {
+					setTimerRun(true);
+				}
+			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [tour]);
 
-	return <>{formatTime(seconds)}</>;
+	// Store timer on timer unmount
+	useEffect(() => {
+		return () => {
+			setTimeElapsed(timerRef.current);
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	return <>{formatTime(timeSecs)}</>;
 }

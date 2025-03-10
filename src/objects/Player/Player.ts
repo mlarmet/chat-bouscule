@@ -1,4 +1,4 @@
-import { gameStore } from "services/gameStore";
+import { gameStore } from "services/store";
 
 export default class Player {
 	role: PlayerType;

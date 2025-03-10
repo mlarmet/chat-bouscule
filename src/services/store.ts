@@ -11,6 +11,9 @@ type GameState = {
 	turn: PlayerType;
 	tour: number;
 	timerRun: boolean;
+	status: GameStatus;
+	timeElapsed: number;
+	resetTrigger: number;
 
 	mapAnimal: Map<string, Animal>;
 
@@ -20,9 +23,12 @@ type GameState = {
 
 	resetGame: () => void;
 
+	setStatus: (status: GameStatus) => void;
 	setTurn: (turn: PlayerType) => void;
 	addTour: () => void;
+
 	setTimerRun: (run: boolean) => void;
+	setTimeElapsed: (time: number) => void;
 
 	setPions: (player: PlayerType, pions: Characters) => void;
 	setSelectedPion: (player: PlayerType, pion: PionType) => void;
@@ -44,10 +50,16 @@ const defaultPlayerData: PlayerData = {
 };
 
 // Omit functions
-const defaultData: Omit<GameState, "resetGame" | "setTurn" | "setTimerRun" | "addTour" | "setPions" | "setSelectedPion"> = {
+const defaultData: Omit<
+	GameState,
+	"resetGame" | "startTime" | "setTimeElapsed" | "setStatus" | "setTurn" | "setTimerRun" | "addTour" | "setPions" | "setSelectedPion"
+> = {
 	turn: "gris",
 	tour: 0,
 	timerRun: false,
+	status: "STOPPED",
+	timeElapsed: 0,
+	resetTrigger: 0,
 
 	mapAnimal: new Map(),
 
@@ -60,10 +72,19 @@ const defaultData: Omit<GameState, "resetGame" | "setTurn" | "setTimerRun" | "ad
 export const useGameStore = create<GameState>((set) => ({
 	...structuredClone(defaultData),
 
-	resetGame: () => set(structuredClone(defaultData)),
+	resetGame: () => {
+		set((state) => ({
+			...structuredClone(defaultData),
+			resetTrigger: state.resetTrigger + 1, // Increment to trigger effect
+		}));
+	},
 
 	setTurn: (turn: PlayerType) => set({ turn: turn }),
 	setTimerRun: (run: boolean) => set({ timerRun: run }),
+
+	setStatus: (status: GameStatus) => set({ status: status }),
+
+	setTimeElapsed: (time: number) => set({ timeElapsed: time }),
 
 	addTour: () =>
 		set((state) => ({

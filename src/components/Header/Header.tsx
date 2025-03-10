@@ -8,12 +8,12 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { faRotateRight, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { useGameStore } from "services/gameStore";
+import { useGameStore } from "services/store";
 
 import "./Header.scss";
 
 export default function Header() {
-	const { resetGame } = useGameStore();
+	const resetGame = useGameStore((state) => state.resetGame);
 
 	const handleReset = () => resetGame();
 

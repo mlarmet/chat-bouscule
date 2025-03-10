@@ -26,9 +26,5 @@ export default defineConfig({
 	define: {
 		__BASE_URL__: JSON.stringify(baseUrl),
 		__APP_NAME__: JSON.stringify("ChatBouscule"),
-
-		__CELL_COUNT__: 6,
-		__LINE_WIDTH__: 3,
-		__PADDING__: 0,
 	},
 });

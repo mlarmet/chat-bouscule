@@ -1,4 +1,5 @@
-import { gameStore } from "src/services/gameStore";
+import { gameSettings } from "services/settings";
+import { gameStore } from "services/store";
 
 export default class Animal {
 	player: PlayerType;
@@ -30,14 +31,16 @@ export default class Animal {
 
 		this.isAnimated = true;
 
+		const lineWidth = gameSettings.cell.lineWidth.base;
+
 		const animate = () => {
 			// Disable draw if game was reset
 			if (gameStore.getState().tour === 0) {
 				return;
 			}
 
-			const targetX = Math.round(this.row * this.cellSize + __LINE_WIDTH__ * (this.row + 1));
-			const targetY = Math.round(this.col * this.cellSize + __LINE_WIDTH__ * (this.col + 1));
+			const targetX = Math.round(this.row * this.cellSize + lineWidth * (this.row + 1));
+			const targetY = Math.round(this.col * this.cellSize + lineWidth * (this.col + 1));
 
 			const dx = targetX - this.x;
 			const dy = targetY - this.y;

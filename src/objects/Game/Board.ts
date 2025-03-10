@@ -1,5 +1,7 @@
-import { gameStore } from "src/services/gameStore";
 import Animal from "../Animal/Animal";
+
+import { gameSettings } from "services/settings";
+import { gameStore } from "services/store";
 
 export default class Board {
 	private canvas!: HTMLCanvasElement;
@@ -17,9 +19,9 @@ export default class Board {
 	animatedCount = 0;
 
 	constructor() {
-		this.render = this.render.bind(this);
-
 		this.preloadSprites();
+
+		this.render = this.render.bind(this);
 	}
 
 	// Preload all images at the start
@@ -87,8 +89,10 @@ export default class Board {
 
 		const ctx = canvas.getContext("2d")!;
 
-		ctx.lineWidth = __LINE_WIDTH__;
-		ctx.strokeStyle = "rgb(255,255,255)";
+		ctx.lineWidth = gameSettings.cell.lineWidth.base;
+		ctx.strokeStyle = gameSettings.colors.line;
+		ctx.lineJoin = "round";
+		ctx.lineCap = "round";
 
 		return { canvas, ctx };
 	}
@@ -100,8 +104,11 @@ export default class Board {
 	}
 
 	private getPosition(row: number, col: number) {
-		const x = Math.round(row * this.cellSize + __LINE_WIDTH__ * (row + 1));
-		const y = Math.round(col * this.cellSize + __LINE_WIDTH__ * (col + 1));
+		const lineWidth = gameSettings.cell.lineWidth.base;
+		const padding = gameSettings.cell.padding / 2.0;
+
+		const x = row * this.cellSize + lineWidth * (row + 1) + padding;
+		const y = col * this.cellSize + lineWidth * (col + 1) + padding;
 
 		return { x, y };
 	}
@@ -117,7 +124,9 @@ export default class Board {
 	setCellSize() {
 		const gridSize = Math.min(parseInt(this.canvas.style.width), parseInt(this.canvas.style.height));
 
-		const cellSize = (gridSize - __LINE_WIDTH__ * (__CELL_COUNT__ + 1)) / __CELL_COUNT__;
+		const { count: cellCount, padding, lineWidth } = gameSettings.cell;
+
+		const cellSize = (gridSize - lineWidth.base * (cellCount + 1) - padding) / cellCount;
 
 		this.cellSize = cellSize;
 
@@ -130,28 +139,15 @@ export default class Board {
 	drawBoard() {
 		this.offScreenCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-		const fullCellSize = this.cellSize + __LINE_WIDTH__;
+		const { count: cellCount, lineWidth } = gameSettings.cell;
 
-		let x = 0;
-		let y;
+		const fullCellSize = this.cellSize + lineWidth.base;
 
-		let rowCount = 0;
-		let colCount;
-
-		while (rowCount < __CELL_COUNT__) {
-			y = 0;
-			colCount = 0;
-
-			while (colCount < __CELL_COUNT__) {
-				this.offScreenCtx.strokeRect(x + __LINE_WIDTH__ / 2, y + __LINE_WIDTH__ / 2, fullCellSize, fullCellSize);
-
-				y += fullCellSize;
-				colCount++;
+		for (let row = 0; row < cellCount; row++) {
+			for (let col = 0; col < cellCount; col++) {
+				const { x, y } = this.getPosition(row, col);
+				this.offScreenCtx.strokeRect(x - lineWidth.base / 2.0, y - lineWidth.base / 2.0, fullCellSize, fullCellSize);
 			}
-
-			x += fullCellSize;
-
-			rowCount++;
 		}
 
 		// Draw all sprites
@@ -178,25 +174,15 @@ export default class Board {
 	drawAnimal(animal: Animal) {
 		const img = this.getImage(animal.image);
 
+		const padding = 0; // gameSettings.cell.padding;
+
+		// Image cached
 		if (img && img.complete) {
-			// Image is loaded, so we can draw it
-			this.offScreenCtx.drawImage(
-				img,
-				animal.x + __PADDING__,
-				animal.y + __PADDING__,
-				animal.cellSize - __PADDING__ * 2,
-				animal.cellSize - __PADDING__ * 2
-			);
+			this.offScreenCtx.drawImage(img, animal.x + padding, animal.y + padding, this.cellSize - padding * 2, this.cellSize - padding * 2);
 		} else {
 			// Fallback if the image is not loaded yet
 			img.onload = () => {
-				this.offScreenCtx.drawImage(
-					img,
-					animal.x + __PADDING__,
-					animal.y + __PADDING__,
-					animal.cellSize - __PADDING__ * 2,
-					animal.cellSize - __PADDING__ * 2
-				);
+				this.offScreenCtx.drawImage(img, animal.x + padding, animal.y + padding, this.cellSize - padding * 2, this.cellSize - padding * 2);
 			};
 		}
 	}
@@ -218,15 +204,21 @@ export default class Board {
 	}
 
 	drawRect(row: number, col: number, color?: string) {
-		const fullCellSize = this.cellSize + __LINE_WIDTH__;
+		const { base, action } = gameSettings.cell.lineWidth;
+
+		const fullCellSize = this.cellSize + base;
 
 		const { x, y } = this.getPosition(row, col);
 
 		if (color) {
 			this.offScreenCtx.strokeStyle = color;
 		}
-		this.offScreenCtx.strokeRect(x - __LINE_WIDTH__ / 2, y - __LINE_WIDTH__ / 2, fullCellSize, fullCellSize);
-		this.offScreenCtx.strokeStyle = "rgb(255,255,255)";
+
+		this.offScreenCtx.lineWidth = action;
+		this.offScreenCtx.strokeRect(x - base / 2.0, y - base / 2.0, fullCellSize, fullCellSize);
+
+		this.offScreenCtx.strokeStyle = gameSettings.colors.line;
+		this.offScreenCtx.lineWidth = base;
 	}
 
 	moveSprite(newRow: number, newCol: number, animal: Animal) {
@@ -235,8 +227,6 @@ export default class Board {
 			newCol,
 			() => {
 				this.drawBoard();
-
-				console.log("draw");
 			},
 			() => {
 				this.animatedCount--;

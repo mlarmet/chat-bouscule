@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 
-import "./Display.scss";
+import { useGameStore } from "services/store";
 
 import Game from "src/objects/Game/Game";
-import { useGameStore } from "src/services/gameStore";
+
+import "./Display.scss";
 
 export default function Board() {
-	const { tour } = useGameStore();
+	const resetTrigger = useGameStore((state) => state.resetTrigger);
 
 	const elementRef = useRef(null);
 	const gameRef = useRef<Game>(null);
@@ -28,29 +29,24 @@ export default function Board() {
 		gameRef.current!.play(eventX, eventY);
 	};
 
-	const updateGame = (reset = false) => {
-		if (reset || !gameRef.current) {
-			gameRef.current = new Game();
-		}
-
-		if (canvasSize === 0) {
-			return;
-		}
-
-		gameRef.current.init(canvasSize);
-	};
-
 	useEffect(() => {
-		updateGame();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+		if (canvasSize !== 0) {
+			if (gameRef.current) {
+				gameRef.current.init(canvasSize);
+			}
+		}
 	}, [canvasSize]);
 
 	useEffect(() => {
-		if (tour === 0) {
-			updateGame(true);
+		if (resetTrigger > 0) {
+			gameRef.current = new Game();
+
+			if (canvasSize !== 0) {
+				gameRef.current.init(canvasSize);
+			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [tour]);
+	}, [resetTrigger]);
 
 	// Resize grid with observer on parent size
 	// Add event listener to canvas
@@ -68,6 +64,8 @@ export default function Board() {
 		if (canvas) {
 			canvas.addEventListener("click", placeSprite);
 		}
+
+		gameRef.current = new Game();
 
 		return () => {
 			if (resizeObserver) {

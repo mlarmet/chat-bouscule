@@ -1,4 +1,4 @@
-import { useGameStore } from "services/gameStore";
+import { useGameStore } from "services/store";
 
 import "./Player.scss";
 
@@ -8,7 +8,8 @@ interface PlayerProps {
 }
 
 export default function Player({ player, visible }: PlayerProps) {
-	const { players, setSelectedPion } = useGameStore();
+	const players = useGameStore((state) => state.players);
+	const setSelectedPion = useGameStore((state) => state.setSelectedPion);
 
 	const selectPion = (pion: PionType) => {
 		if (players[player].pions[pion].stock === 0) {
