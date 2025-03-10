@@ -2,8 +2,11 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 // https://vite.dev/config/
+
+const baseUrl = "/chat-bouscule";
+
 export default defineConfig({
-	base: "/chat-bouscule",
+	base: baseUrl,
 	build: {
 		chunkSizeWarningLimit: 1024,
 	},
@@ -21,6 +24,7 @@ export default defineConfig({
 	},
 
 	define: {
+		__BASE_URL__: JSON.stringify(baseUrl),
 		__APP_NAME__: JSON.stringify("ChatBouscule"),
 
 		__CELL_COUNT__: 6,

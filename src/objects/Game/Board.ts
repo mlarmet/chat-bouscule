@@ -25,10 +25,10 @@ export default class Board {
 	// Preload all images at the start
 	private preloadSprites() {
 		const imageSources = [
-			"assets/sprites/chaton_gris.png",
-			"assets/sprites/chaton_jaune.png",
-			"assets/sprites/chat_gris.png",
-			"assets/sprites/chat_jaune.png",
+			__BASE_URL__ + "/assets/sprites/chaton_gris.png",
+			__BASE_URL__ + "/assets/sprites/chaton_jaune.png",
+			__BASE_URL__ + "/assets/sprites/chat_gris.png",
+			__BASE_URL__ + "/assets/sprites/chat_jaune.png",
 		];
 
 		imageSources.forEach((src) => {
@@ -178,7 +178,7 @@ export default class Board {
 	drawAnimal(animal: Animal) {
 		const img = this.getImage(animal.image);
 
-		if (img.complete) {
+		if (img && img.complete) {
 			// Image is loaded, so we can draw it
 			this.offScreenCtx.drawImage(
 				img,

@@ -14,8 +14,8 @@ export default function Landing() {
 	return (
 		<div id="landing" className="view">
 			<img src={background} alt="background-image" id="image" className="decoration" />
-			<img src="assets/sprites/chaton_gris.png" alt="sprite-1" id="sprite1" className="decoration" />
-			<img src="assets/sprites/chaton_jaune.png" alt="sprite-2" id="sprite2" className="decoration" />
+			<img src={__BASE_URL__ + "/assets/sprites/chaton_gris.png"} alt="sprite-1" id="sprite1" className="decoration" />
+			<img src={__BASE_URL__ + "/assets/sprites/chaton_jaune.png"} alt="sprite-2" id="sprite2" className="decoration" />
 
 			<div className="title">
 				<h1>Chat</h1>
