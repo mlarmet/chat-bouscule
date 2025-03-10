@@ -25,10 +25,10 @@ export default class Board {
 	// Preload all images at the start
 	private preloadSprites() {
 		const imageSources = [
-			__BASE_URL__ + "/assets/sprites/chaton_gris.png",
-			__BASE_URL__ + "/assets/sprites/chaton_jaune.png",
-			__BASE_URL__ + "/assets/sprites/chat_gris.png",
-			__BASE_URL__ + "/assets/sprites/chat_jaune.png",
+			__BASE_URL__ + "/assets/sprites/minou_gris.png",
+			__BASE_URL__ + "/assets/sprites/minou_jaune.png",
+			__BASE_URL__ + "/assets/sprites/matou_gris.png",
+			__BASE_URL__ + "/assets/sprites/matou_jaune.png",
 		];
 
 		imageSources.forEach((src) => {

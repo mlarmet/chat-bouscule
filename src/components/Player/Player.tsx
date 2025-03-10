@@ -21,7 +21,7 @@ export default function Player({ player, visible }: PlayerProps) {
 	const getClass = (pion: PionType) => {
 		let classList = "";
 
-		if (players[player].pions[pion].stock === 0) {
+		if (players[player].pions[pion].stock <= 0) {
 			return " disabled";
 		}
 
@@ -34,14 +34,14 @@ export default function Player({ player, visible }: PlayerProps) {
 
 	return (
 		<div id={player} className={"player" + (visible ? "" : " hide")}>
-			<div className={"sprite-selector" + getClass("chaton")} onClick={() => selectPion("chaton")}>
-				<img className="sprite" src={`assets/sprites/chaton_${player}.png`} alt="" />
+			<div className={"sprite-selector" + getClass("minou")} onClick={() => selectPion("minou")}>
+				<img className="sprite" src={`assets/sprites/minou_${player}.png`} alt="" />
 
-				<p>{players[player].pions.chaton.stock}</p>
+				<p>{players[player].pions.minou.stock}</p>
 			</div>
-			<div className={"sprite-selector" + getClass("chat")} onClick={() => selectPion("chat")}>
-				<img className="sprite" src={`assets/sprites/chat_${player}.png`} alt="" />
-				<p>{players[player].pions.chat.stock}</p>
+			<div className={"sprite-selector" + getClass("matou")} onClick={() => selectPion("matou")}>
+				<img className="sprite" src={`assets/sprites/matou_${player}.png`} alt="" />
+				<p>{players[player].pions.matou.stock}</p>
 			</div>
 		</div>
 	);

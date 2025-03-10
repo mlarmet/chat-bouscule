@@ -19,50 +19,50 @@ export default class Player {
 		return gameStore.getState().players[this.role].selectedPion;
 	}
 
-	playChat() {
+	playMinou() {
 		const pions = this.getPions();
 
-		pions.chat.stock -= 1;
-		pions.chat.plateau += 1;
+		pions.minou.stock -= 1;
+		pions.minou.plateau += 1;
 
 		this.setData(pions);
 	}
 
-	playChaton() {
+	playMatou() {
 		const pions = this.getPions();
 
-		pions.chaton.stock -= 1;
-		pions.chaton.plateau += 1;
+		pions.matou.stock -= 1;
+		pions.matou.plateau += 1;
 
 		this.setData(pions);
 	}
 
-	returnChaton() {
+	returnMiou() {
 		const pions = this.getPions();
 
-		pions.chaton.stock += 1;
-		pions.chaton.plateau -= 1;
+		pions.minou.stock += 1;
+		pions.minou.plateau -= 1;
 
 		this.setData(pions);
 	}
 
-	returnChat() {
+	returnMatou() {
 		const pions = this.getPions();
 
-		pions.chat.stock += 1;
-		pions.chat.plateau -= 1;
+		pions.matou.stock += 1;
+		pions.matou.plateau -= 1;
 
 		this.setData(pions);
 	}
 
-	transformChatonsToChats(nbChatons: number, nbChats: number) {
+	transformMinouToMatou(nbMinou: number, nbMatou: number) {
 		const pions = this.getPions();
 
-		pions.chaton.plateau -= nbChatons;
+		pions.minou.plateau -= nbMinou;
 
-		pions.chat.stock += 3;
+		pions.matou.stock += 3;
 
-		pions.chat.plateau -= nbChats;
+		pions.matou.plateau -= nbMatou;
 
 		this.setData(pions);
 	}

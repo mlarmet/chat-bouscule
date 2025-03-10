@@ -28,6 +28,21 @@ type GameState = {
 	setSelectedPion: (player: PlayerType, pion: PionType) => void;
 };
 
+const defaultPlayerData: PlayerData = {
+	pions: {
+		minou: {
+			plateau: 0,
+			stock: 8,
+		},
+		matou: {
+			plateau: 0,
+			stock: 0,
+		},
+	},
+
+	selectedPion: "minou",
+};
+
 // Omit functions
 const defaultData: Omit<GameState, "resetGame" | "setTurn" | "setTimerRun" | "addTour" | "setPions" | "setSelectedPion"> = {
 	turn: "gris",
@@ -37,35 +52,8 @@ const defaultData: Omit<GameState, "resetGame" | "setTurn" | "setTimerRun" | "ad
 	mapAnimal: new Map(),
 
 	players: {
-		gris: {
-			pions: {
-				chaton: {
-					plateau: 0,
-					stock: 8,
-				},
-				chat: {
-					plateau: 0,
-					stock: 0,
-				},
-			},
-
-			selectedPion: "chaton",
-		},
-
-		jaune: {
-			pions: {
-				chaton: {
-					plateau: 0,
-					stock: 8,
-				},
-				chat: {
-					plateau: 0,
-					stock: 0,
-				},
-			},
-
-			selectedPion: "chaton",
-		},
+		gris: structuredClone(defaultPlayerData),
+		jaune: structuredClone(defaultPlayerData),
 	},
 };
 
@@ -79,13 +67,11 @@ export const useGameStore = create<GameState>((set) => ({
 
 	addTour: () =>
 		set((state) => ({
-			...state,
 			tour: state.tour + 1,
 		})),
 
 	setSelectedPion: (player: PlayerType, pion: PionType) =>
 		set((state) => ({
-			...state,
 			players: {
 				...state.players,
 				[player]: {
@@ -98,7 +84,6 @@ export const useGameStore = create<GameState>((set) => ({
 
 	setPions: (player: PlayerType, pions: Characters) =>
 		set((state) => ({
-			...state,
 			players: {
 				...state.players,
 				[player]: {

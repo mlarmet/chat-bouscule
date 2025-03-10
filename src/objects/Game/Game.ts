@@ -1,6 +1,6 @@
 import Animal from "../Animal/Animal";
-import Chat from "../Animal/Chat";
-import Chaton from "../Animal/Chaton";
+import Matou from "../Animal/Matou";
+import Minou from "../Animal/Minou";
 
 import { gameStore } from "src/services/gameStore";
 import Player from "../Player/Player";
@@ -147,7 +147,7 @@ export default class Game {
 				// const animal: Animal = this.mapAnimal.get(`${x},${y}`)!;
 				const animal: Animal = this.getMapAnimal().get(`${x},${y}`)!;
 
-				// Move only chaton => chaton, chat => all
+				// Move only minou to minou, matou to all
 				if (current.weight < animal.weight) {
 					continue;
 				}
@@ -159,10 +159,10 @@ export default class Game {
 				if (!this.isValid(nextX, nextY)) {
 					const player: Player = this.players[animal.player];
 
-					if (animal instanceof Chat) {
-						player.returnChat();
+					if (animal instanceof Matou) {
+						player.returnMatou();
 					} else {
-						player.returnChaton();
+						player.returnMiou();
 					}
 
 					this.board.animatedCount++;
@@ -306,7 +306,7 @@ export default class Game {
 		const player: Player = this.players[this.getTurn()];
 
 		for (const animal of this.getMapAnimal().values()) {
-			if (animal instanceof Chat || animal.player !== player.role) {
+			if (animal instanceof Matou || animal.player !== player.role) {
 				continue;
 			}
 
@@ -325,22 +325,22 @@ export default class Game {
 			setTimeout(() => {
 				const player: Player = this.players[this.rowPlayer!];
 
-				let nbChatons = 0;
-				let nbChats = 0;
+				let nbMinou = 0;
+				let nbMatou = 0;
 
 				for (const [x, y] of this.rowCells) {
 					const animal = this.getMapAnimal().get(`${x},${y}`)!;
 
-					if (animal instanceof Chaton) {
-						nbChatons++;
+					if (animal instanceof Minou) {
+						nbMinou++;
 					} else {
-						nbChats++;
+						nbMatou++;
 					}
 
 					this.getMapAnimal().delete(`${x},${y}`);
 				}
 
-				player.transformChatonsToChats(nbChatons, nbChats);
+				player.transformMinouToMatou(nbMinou, nbMatou);
 
 				this.rowPlayer = null;
 				this.rowCells = [];
@@ -356,7 +356,7 @@ export default class Game {
 		return this.rowCells.every(([row, col]) => {
 			const animal = this.getMapAnimal().get(`${row},${col}`)!;
 
-			return animal instanceof Chat;
+			return animal instanceof Matou;
 		});
 	}
 
@@ -382,7 +382,7 @@ export default class Game {
 
 		this.board.drawBoard();
 
-		player.returnChat();
+		player.returnMatou();
 
 		// Let new play
 		this.setStatus("IDLE");
@@ -390,9 +390,9 @@ export default class Game {
 
 	private isAllPionsWin(): boolean {
 		const player: Player = this.players[this.getTurn()];
-		const { chaton, chat } = player.getPions();
+		const { minou, matou } = player.getPions();
 
-		return chat.plateau === config.totalPiece && chat.stock === 0 && chaton.stock === 0 && chaton.plateau === 0;
+		return matou.plateau === config.totalPiece && matou.stock === 0 && minou.stock === 0 && minou.plateau === 0;
 	}
 
 	private showAllPionsWin() {
@@ -430,14 +430,14 @@ export default class Game {
 
 		const player: Player = this.players[this.getTurn()];
 
-		const AnimalClass = player.getSelectedPion() === "chat" ? Chat : Chaton;
+		let animal: Animal;
 
-		const animal: Animal = new AnimalClass(this.getTurn());
-
-		if (player.getSelectedPion() === "chat") {
-			player.playChat();
+		if (player.getSelectedPion() === "matou") {
+			player.playMatou();
+			animal = new Matou(this.getTurn());
 		} else {
-			player.playChaton();
+			player.playMinou();
+			animal = new Minou(this.getTurn());
 		}
 
 		this.getMapAnimal().set(`${row},${col}`, animal);
@@ -468,7 +468,7 @@ export default class Game {
 		const nextPlayerStock: Characters = (this.players[this.getTurn()] as Player).getPions();
 
 		// Last cause update status befor new click
-		if (nextPlayerStock.chaton.stock + nextPlayerStock.chat.stock === 0) {
+		if (nextPlayerStock.minou.stock + nextPlayerStock.matou.stock === 0) {
 			this.showSelectPion();
 			return;
 		}
