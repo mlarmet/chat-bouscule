@@ -1,0 +1,153 @@
+:root {
+	--color-primary-default: #ffbf2b;
+
+	--color-secondary-default: #0d2f52;
+	--color-secondary-darker: #082046;
+
+	--color-others-default: #ffffff;
+	--color-others-darker: #000000;
+
+	--color-others-alert: #ff3d3d;
+	--color-others-valid: #0cbf30;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+	height: 100%;
+}
+
+body {
+	font-family: "Baloo 2", sans-serif;
+
+	margin: 0;
+
+	color: #fff;
+	background-color: var(--color-others-darker);
+}
+
+#root {
+	display: flex;
+
+	justify-content: center;
+	align-items: center;
+}
+
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently
+									supported by Chrome, Edge, Opera and Firefox */
+}
+
+p {
+	line-height: 1;
+}
+
+.btn {
+	cursor: pointer;
+
+	display: block;
+	text-align: center;
+
+	font-weight: bold;
+	text-decoration: none;
+
+	&,
+	&::before,
+	&::after {
+		border-radius: 1rem;
+	}
+
+	&.primary {
+		position: relative;
+		z-index: 0;
+
+		$paddingV: calc(0.5rem + 5px);
+		$paddingH: calc(0.25rem + 5px);
+
+		// Coutner bottom space 2px = 5px delta - 3px border
+		padding: calc($paddingV - 2px) $paddingH calc($paddingV + 2px) $paddingH;
+
+		color: var(--color-others-darker);
+
+		&::before,
+		&::after {
+			content: "";
+			z-index: -1;
+
+			position: absolute;
+		}
+
+		&::after {
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 5px;
+
+			border: 3px var(--color-others-darker) solid;
+			background-color: var(--color-primary-default);
+		}
+
+		&::before {
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+
+			background-color: var(--color-others-darker);
+		}
+
+		&:hover {
+			padding-top: calc($paddingV + 3px);
+			padding-bottom: calc($paddingV - 3px);
+
+			&::before,
+			&::after {
+				top: 5px;
+				bottom: 0;
+			}
+		}
+	}
+
+	&.secondary {
+		color: var(--color-primary-default);
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+.title {
+	font-family: "jua";
+
+	display: flex;
+	flex-direction: column;
+
+	align-items: center;
+
+	color: var(--color-primary-default);
+
+	h1,
+	h2 {
+		margin: 0;
+		font-weight: 400;
+	}
+}
+
+.view {
+	flex: 1;
+
+	display: flex;
+	flex-direction: column;
+}

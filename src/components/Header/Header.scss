@@ -1,0 +1,47 @@
+header {
+	position: relative;
+
+	.title {
+		h1 {
+			text-align: center;
+		}
+		h2 {
+			margin-top: -15px;
+		}
+	}
+
+	.btn.square {
+		font-size: 20px;
+
+		position: absolute;
+		top: 0;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		width: 35px;
+		height: 40px;
+
+		&::before,
+		&::after {
+			border-radius: 10px;
+		}
+
+		&#reset {
+			left: 0;
+
+			&::after {
+				background-color: var(--color-others-valid);
+			}
+		}
+
+		&#exit {
+			right: 0;
+
+			&::after {
+				background-color: var(--color-others-alert);
+			}
+		}
+	}
+}

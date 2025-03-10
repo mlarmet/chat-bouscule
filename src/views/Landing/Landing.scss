@@ -1,0 +1,70 @@
+#landing {
+	position: relative;
+	z-index: 10;
+
+	align-items: center;
+	justify-content: space-between;
+
+	padding: 40px 20px;
+
+	background-color: var(--color-secondary-darker);
+
+	.decoration {
+		position: absolute;
+		z-index: -1;
+	}
+
+	#sprite1 {
+		width: 163px;
+
+		left: 41%;
+		bottom: 182px;
+
+		@media screen and (max-width: 300px) {
+			left: 38%;
+		}
+
+		@media screen and (max-width: 250px) {
+			left: 36%;
+		}
+	}
+
+	#sprite2 {
+		width: 47px;
+
+		left: 13%;
+		bottom: 263px;
+
+		transform: rotate(18deg);
+	}
+
+	#image {
+		bottom: 100px;
+		width: 403px;
+	}
+
+	.title {
+		margin-top: 5rem;
+		h1 {
+			font-size: 80px;
+		}
+
+		h2 {
+			font-size: 60px;
+			margin-top: -45px;
+		}
+	}
+
+	#play {
+		display: flex;
+		flex-direction: column;
+
+		gap: 20px;
+
+		width: 100%;
+
+		@media screen and (min-height: 700px) {
+			padding-bottom: 10px;
+		}
+	}
+}
