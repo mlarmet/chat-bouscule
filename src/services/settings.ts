@@ -74,7 +74,7 @@ export const gameSettings: GameSettings = {
 
 		credit: {
 			title: "Crédits",
-			text: "ChatBouscule s'inspire du jeu de société \"Boop\", mais n'utilise aucune ressource officielle du jeu.",
+			text: __APP_NAME__ + " s'inspire du jeu de société \"Boop\", mais n'utilise aucune ressource officielle du jeu.",
 		},
 	},
 };

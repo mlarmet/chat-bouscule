@@ -5,18 +5,29 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
 	<meta name="description"
-		content="Jouez à 'ChatBouscule', qui s'inspire du jeu de société 'Boop'. Alignez trois minous pour les transformer en matous et remportez la partie !">
+		content="Jouez à 'ChatBouscule', qui s'inspire du jeu de société 'Boop'. Alignez trois minous pour les transformer en matous et remportez la partie !" />
 
 	<meta name="author" content="Maxence LARMET" />
 
 	<!-- MANIFEST -->
 	<link rel="manifest" href="/manifest.webmanifest" />
 
+	<!-- PWA -->
+	<meta name="full-screen" content="yes" />
+	<meta name="mobile-web-app-capable" content="yes" />
+
+	<!-- iOS PWA Support -->
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<!-- Change in black for safari only -->
+	<meta name="theme-color" content="#ffbf2b" />
+	<!-- Only for PWA iOS (not safari) -->
+	<meta name="apple-mobile-web-app-status-bar-style" , content="black-translucent" />
+
 	<!-- FONTS -->
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 	<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Jua&display=swap"
-		rel="stylesheet">
+		rel="stylesheet" />
 
 	<!-- ICO -->
 	<link rel="icon" type="image/png" href="/assets/icons/favicon-96x96.png" sizes="96x96" />
@@ -25,13 +36,18 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png" />
 	<meta name="apple-mobile-web-app-title" content="ChatBouscule" />
 
-	<!-- Offline theme color -->
-	<meta name="theme-color" content="#ffbf2b">
-	<meta name="background-color" content="#082046">
 </head>
 
 <body>
 	<div id="root"></div>
+
+	<script>
+		if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+			// If the device is iOS, set theme-color to black for background
+			document.querySelector('meta[name="theme-color"]').setAttribute("content", "#000");
+		}
+	</script>
+
 	<script type="module" src="/src/main.tsx"></script>
 </body>
 
