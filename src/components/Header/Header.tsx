@@ -24,14 +24,13 @@ export default function Header() {
 				<h2>Bouscule</h2>
 			</div>
 
-			{/* TODO : confirm exit */}
-			<Link to="/" id="exit" className="btn primary square">
-				<FontAwesomeIcon icon={faXmark} />
-			</Link>
-			{/* TODO : confirm reset */}
-			<div id="reset" className="btn primary square" onClick={handleReset}>
+			<button id="reset" className="btn valid icon" onClick={handleReset}>
 				<FontAwesomeIcon icon={faRotateRight} />
-			</div>
+			</button>
+
+			<button id="exit" className="btn alert icon" onClick={handleExit}>
+				<FontAwesomeIcon icon={faXmark} fontSize={20} />
+			</button>
 		</header>
 	);
 }

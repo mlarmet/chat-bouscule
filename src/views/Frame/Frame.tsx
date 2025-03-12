@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import Home from "views/Home/Home";
@@ -6,6 +7,10 @@ import Landing from "views/Landing/Landing";
 import "./Frame.scss";
 
 export default function Frame() {
+	useEffect(() => {
+		document.title = __APP_NAME__;
+	}, []);
+
 	return (
 		<div id="frame" className="noselect">
 			<Router basename={__BASE_URL__}>
