@@ -12,6 +12,8 @@ type GameState = {
 	tour: number;
 	timerRun: boolean;
 	status: GameStatus;
+	showResetModal: boolean;
+	showQuitModal: boolean;
 	timeElapsed: number;
 	resetTrigger: number;
 
@@ -29,6 +31,9 @@ type GameState = {
 
 	setTimerRun: (run: boolean) => void;
 	setTimeElapsed: (time: number) => void;
+
+	setShowResetModal: (show: boolean) => void;
+	setShowQuitModal: (show: boolean) => void;
 
 	setPions: (player: PlayerType, pions: Characters) => void;
 	setSelectedPion: (player: PlayerType, pion: PionType) => void;
@@ -52,11 +57,23 @@ const defaultPlayerData: PlayerData = {
 // Omit functions
 const defaultData: Omit<
 	GameState,
-	"resetGame" | "startTime" | "setTimeElapsed" | "setStatus" | "setTurn" | "setTimerRun" | "addTour" | "setPions" | "setSelectedPion"
+	| "resetGame"
+	| "startTime"
+	| "setShowResetModal"
+	| "setShowQuitModal"
+	| "setTimeElapsed"
+	| "setStatus"
+	| "setTurn"
+	| "setTimerRun"
+	| "addTour"
+	| "setPions"
+	| "setSelectedPion"
 > = {
 	turn: "gris",
 	tour: 0,
 	timerRun: false,
+	showResetModal: false,
+	showQuitModal: false,
 	status: "STOPPED",
 	timeElapsed: 0,
 	resetTrigger: 0,
@@ -85,6 +102,9 @@ export const useGameStore = create<GameState>((set) => ({
 	setStatus: (status: GameStatus) => set({ status: status }),
 
 	setTimeElapsed: (time: number) => set({ timeElapsed: time }),
+
+	setShowResetModal: (show: boolean) => set({ showResetModal: show }),
+	setShowQuitModal: (show: boolean) => set({ showQuitModal: show }),
 
 	addTour: () =>
 		set((state) => ({

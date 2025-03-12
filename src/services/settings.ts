@@ -1,3 +1,16 @@
+type ModalProperties = {
+	title: string;
+	text: string;
+	cancel: {
+		action?: CallableFunction;
+		text: string;
+	};
+	confirm: {
+		action?: CallableFunction;
+		text: string;
+	};
+};
+
 type GameSettings = {
 	timeShowRowInMs: number;
 	totalPiece: number;
@@ -16,6 +29,10 @@ type GameSettings = {
 			base: number;
 			action: number;
 		};
+	};
+
+	modal: {
+		[key: string]: ModalProperties;
 	};
 };
 
@@ -36,6 +53,30 @@ export const gameSettings: GameSettings = {
 		lineWidth: {
 			base: 3,
 			action: 5,
+		},
+	},
+
+	modal: {
+		reset: {
+			title: "Recommencer la partie ?",
+			text: "Une partie est en cours. Voulez-vous vraiment recommencer ?",
+			cancel: {
+				text: "Annuler",
+			},
+			confirm: {
+				text: "Recommencer",
+			},
+		},
+
+		quit: {
+			title: "Quitter la partie ?",
+			text: "Une partie est en cours. Voulez-vous vraiment quitter ?",
+			cancel: {
+				text: "Annuler",
+			},
+			confirm: {
+				text: "Quitter",
+			},
 		},
 	},
 };

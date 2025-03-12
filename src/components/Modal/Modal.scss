@@ -1,0 +1,81 @@
+.modal-container {
+	position: absolute;
+
+	top: 0;
+	left: 0;
+
+	z-index: 10;
+
+	height: 100%;
+	width: 100%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background-color: rgba(0, 0, 0, 0.5);
+
+	&,
+	.modal {
+		padding: 20px;
+	}
+
+	.modal {
+		flex: 1;
+
+		position: relative;
+
+		background-color: #fff;
+		color: #000;
+
+		border-radius: 1rem;
+
+		gap: 40px;
+
+		&,
+		.content {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.content {
+			gap: 20px;
+
+			h2,
+			p {
+				margin: 0;
+			}
+
+			h2 {
+				font-size: 24px;
+				line-height: 24px;
+			}
+		}
+
+		.cross {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+
+			color: var(--color-others-dark);
+		}
+
+		.actions {
+			display: flex;
+			justify-content: stretch;
+
+			gap: 20px;
+
+			button {
+				flex: 1;
+				&.cancel::after {
+					background-color: var(--color-others-valid);
+				}
+
+				&.confirm::after {
+					background-color: var(--color-others-alert);
+				}
+			}
+		}
+	}
+}

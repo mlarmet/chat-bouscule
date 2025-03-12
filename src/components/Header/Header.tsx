@@ -1,9 +1,4 @@
-import { Link } from "react-router-dom";
-
-import { config } from "@fortawesome/fontawesome-svg-core";
-config.autoAddCss = false;
-
-import "@fortawesome/fontawesome-svg-core/styles.css";
+import { useNavigate } from "react-router-dom";
 
 import { faRotateRight, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,9 +8,30 @@ import { useGameStore } from "services/store";
 import "./Header.scss";
 
 export default function Header() {
+	const navigate = useNavigate();
+
 	const resetGame = useGameStore((state) => state.resetGame);
 
-	const handleReset = () => resetGame();
+	const setShowResetModal = useGameStore((state) => state.setShowResetModal);
+	const setShoQuitModal = useGameStore((state) => state.setShowQuitModal);
+
+	const tour = useGameStore((state) => state.tour);
+
+	const handleReset = () => {
+		if (tour > 0) {
+			setShowResetModal(true);
+		} else {
+			resetGame();
+		}
+	};
+
+	const handleExit = () => {
+		if (tour > 0) {
+			setShoQuitModal(true);
+		} else {
+			navigate(__BASE_URL__);
+		}
+	};
 
 	return (
 		<header>
