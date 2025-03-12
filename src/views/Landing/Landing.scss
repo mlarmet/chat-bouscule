@@ -1,6 +1,5 @@
 #landing {
-	position: relative;
-	z-index: 10;
+	z-index: 1;
 
 	align-items: center;
 	justify-content: space-between;
@@ -8,6 +7,14 @@
 	padding: 40px 20px;
 
 	background-color: var(--color-secondary-darker);
+
+	#credits {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+
+		color: var(--color-others-light);
+	}
 
 	.decoration {
 		position: absolute;
@@ -44,7 +51,8 @@
 	}
 
 	.title {
-		margin-top: 5rem;
+		margin-top: 10vh;
+
 		h1 {
 			font-size: 80px;
 		}

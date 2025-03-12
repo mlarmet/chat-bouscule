@@ -1,20 +1,18 @@
-import { useNavigate } from "react-router-dom";
-
 import { faRotateRight, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { useAppStore } from "services/appStore";
 import { useGameStore } from "services/gameStore";
 
+import { useModal } from "components/Modal/ModalContext";
+
 import "./Header.scss";
 
 export default function Header() {
-	const navigate = useNavigate();
+	const { modalDataAction } = useModal();
 
 	const tour = useGameStore((state) => state.tour);
-	const resetGame = useGameStore((state) => state.resetGame);
 
-	const addResetTrigger = useAppStore((state) => state.addResetTrigger);
 	const setShowResetModal = useAppStore((state) => state.setShowResetModal);
 	const setShoQuitModal = useAppStore((state) => state.setShowQuitModal);
 
@@ -22,8 +20,11 @@ export default function Header() {
 		if (tour > 0) {
 			setShowResetModal(true);
 		} else {
-			resetGame();
-			addResetTrigger();
+			const action = modalDataAction["reset"]?.confirm;
+
+			if (action) {
+				action();
+			}
 		}
 	};
 
@@ -31,9 +32,11 @@ export default function Header() {
 		if (tour > 0) {
 			setShoQuitModal(true);
 		} else {
-			navigate("/");
-			resetGame();
-			addResetTrigger();
+			const action = modalDataAction["quit"]?.confirm;
+
+			if (action) {
+				action();
+			}
 		}
 	};
 

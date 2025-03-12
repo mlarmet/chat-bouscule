@@ -13,7 +13,7 @@ export default class Board {
 
 	private renderingID = -1;
 
-	private imgCache: { [key: string]: HTMLImageElement } = {};
+	private imgCache: Record<string, HTMLImageElement> = {};
 
 	cellSize = 0;
 	animatedCount = 0;

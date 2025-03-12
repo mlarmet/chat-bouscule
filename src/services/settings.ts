@@ -1,16 +1,3 @@
-type ModalProperties = {
-	title: string;
-	text: string;
-	cancel: {
-		action?: CallableFunction;
-		text: string;
-	};
-	confirm: {
-		action?: CallableFunction;
-		text: string;
-	};
-};
-
 type GameSettings = {
 	timeShowRowInMs: number;
 	flashingSelectPlayerInMs: number;
@@ -33,9 +20,7 @@ type GameSettings = {
 		};
 	};
 
-	modal: {
-		[key: string]: ModalProperties;
-	};
+	modal: Record<ModalType, ModalProperties>;
 };
 
 export const gameSettings: GameSettings = {
@@ -64,23 +49,32 @@ export const gameSettings: GameSettings = {
 		reset: {
 			title: "Recommencer la partie ?",
 			text: "Une partie est en cours. Voulez-vous vraiment recommencer ?",
-			cancel: {
-				text: "Annuler",
-			},
-			confirm: {
-				text: "Recommencer",
+			actions: {
+				cancel: {
+					text: "Annuler",
+				},
+				confirm: {
+					text: "Recommencer",
+				},
 			},
 		},
 
 		quit: {
 			title: "Quitter la partie ?",
 			text: "Une partie est en cours. Voulez-vous vraiment quitter ?",
-			cancel: {
-				text: "Annuler",
+			actions: {
+				cancel: {
+					text: "Annuler",
+				},
+				confirm: {
+					text: "Quitter",
+				},
 			},
-			confirm: {
-				text: "Quitter",
-			},
+		},
+
+		credit: {
+			title: "Crédits",
+			text: "ChatBouscule s'inspire du jeu de société \"Boop\", mais n'utilise aucune ressource officielle du jeu.",
 		},
 	},
 };

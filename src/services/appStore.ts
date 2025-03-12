@@ -7,6 +7,7 @@ type AppSate = {
 
 	showResetModal: boolean;
 	showQuitModal: boolean;
+	showCreditModal: boolean;
 
 	setTimerRun: (run: boolean) => void;
 
@@ -14,16 +15,18 @@ type AppSate = {
 
 	setShowResetModal: (show: boolean) => void;
 	setShowQuitModal: (show: boolean) => void;
+	setShowCreditModal: (show: boolean) => void;
 };
 
 // Omit functions
-const defaultData: Omit<AppSate, "resetGame" | "addResetTrigger" | "setShowResetModal" | "setShowQuitModal" | "setTimerRun"> = {
+const defaultData: Omit<AppSate, "resetGame" | "addResetTrigger" | "setShowCreditModal" | "setShowResetModal" | "setShowQuitModal" | "setTimerRun"> = {
 	timerRun: false,
 
 	resetTrigger: 0,
 
 	showResetModal: false,
 	showQuitModal: false,
+	showCreditModal: false,
 };
 
 export const useAppStore = create<AppSate>((set) => ({
@@ -35,6 +38,7 @@ export const useAppStore = create<AppSate>((set) => ({
 
 	setShowResetModal: (show: boolean) => set({ showResetModal: show }),
 	setShowQuitModal: (show: boolean) => set({ showQuitModal: show }),
+	setShowCreditModal: (show: boolean) => set({ showCreditModal: show }),
 }));
 
 export const appStore = useAppStore;
