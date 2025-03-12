@@ -31,7 +31,7 @@ export default function Header() {
 		if (tour > 0) {
 			setShoQuitModal(true);
 		} else {
-			navigate(__BASE_URL__);
+			navigate("/");
 			resetGame();
 			addResetTrigger();
 		}

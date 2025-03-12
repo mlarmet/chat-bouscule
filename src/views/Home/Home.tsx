@@ -38,7 +38,7 @@ export default function Home() {
 					}}
 					confirm={{
 						action: () => {
-							navigate(__BASE_URL__);
+							navigate("/");
 							addResetTrigger();
 							resetGame();
 						},
