@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 
-import { useGameStore } from "services/store";
+import { useAppStore } from "services/appStore";
 
 import Game from "src/objects/Game/Game";
 
 import "./Display.scss";
 
 export default function Board() {
-	const resetTrigger = useGameStore((state) => state.resetTrigger);
+	const resetTrigger = useAppStore((state) => state.resetTrigger);
 
 	const elementRef = useRef(null);
 	const gameRef = useRef<Game>(null);

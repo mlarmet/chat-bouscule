@@ -1,7 +1,7 @@
 import Animal from "../Animal/Animal";
 
+import { gameStore } from "services/gameStore";
 import { gameSettings } from "services/settings";
-import { gameStore } from "services/store";
 
 export default class Board {
 	private canvas!: HTMLCanvasElement;

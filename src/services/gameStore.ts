@@ -10,12 +10,8 @@ type PlayerData = {
 type GameState = {
 	turn: PlayerType;
 	tour: number;
-	timerRun: boolean;
 	status: GameStatus;
-	showResetModal: boolean;
-	showQuitModal: boolean;
 	timeElapsed: number;
-	resetTrigger: number;
 
 	mapAnimal: Map<string, Animal>;
 
@@ -23,20 +19,15 @@ type GameState = {
 		[key in PlayerType]: PlayerData;
 	};
 
-	resetGame: () => void;
-
-	setStatus: (status: GameStatus) => void;
 	setTurn: (turn: PlayerType) => void;
 	addTour: () => void;
-
-	setTimerRun: (run: boolean) => void;
 	setTimeElapsed: (time: number) => void;
-
-	setShowResetModal: (show: boolean) => void;
-	setShowQuitModal: (show: boolean) => void;
+	setStatus: (status: GameStatus) => void;
 
 	setPions: (player: PlayerType, pions: Characters) => void;
 	setSelectedPion: (player: PlayerType, pion: PionType) => void;
+
+	resetGame: () => void;
 };
 
 const defaultPlayerData: PlayerData = {
@@ -55,28 +46,11 @@ const defaultPlayerData: PlayerData = {
 };
 
 // Omit functions
-const defaultData: Omit<
-	GameState,
-	| "resetGame"
-	| "startTime"
-	| "setShowResetModal"
-	| "setShowQuitModal"
-	| "setTimeElapsed"
-	| "setStatus"
-	| "setTurn"
-	| "setTimerRun"
-	| "addTour"
-	| "setPions"
-	| "setSelectedPion"
-> = {
+const defaultData: Omit<GameState, "resetGame" | "setTimeElapsed" | "setStatus" | "setTurn" | "addTour" | "setPions" | "setSelectedPion"> = {
 	turn: "gris",
 	tour: 0,
-	timerRun: false,
-	showResetModal: false,
-	showQuitModal: false,
-	status: "STOPPED",
 	timeElapsed: 0,
-	resetTrigger: 0,
+	status: "STOPPED",
 
 	mapAnimal: new Map(),
 
@@ -89,27 +63,15 @@ const defaultData: Omit<
 export const useGameStore = create<GameState>((set) => ({
 	...structuredClone(defaultData),
 
-	resetGame: () => {
-		set((state) => ({
-			...structuredClone(defaultData),
-			resetTrigger: state.resetTrigger + 1, // Increment to trigger effect
-		}));
-	},
-
 	setTurn: (turn: PlayerType) => set({ turn: turn }),
-	setTimerRun: (run: boolean) => set({ timerRun: run }),
-
-	setStatus: (status: GameStatus) => set({ status: status }),
-
-	setTimeElapsed: (time: number) => set({ timeElapsed: time }),
-
-	setShowResetModal: (show: boolean) => set({ showResetModal: show }),
-	setShowQuitModal: (show: boolean) => set({ showQuitModal: show }),
 
 	addTour: () =>
 		set((state) => ({
 			tour: state.tour + 1,
 		})),
+
+	setStatus: (status: GameStatus) => set({ status: status }),
+	setTimeElapsed: (time: number) => set({ timeElapsed: time }),
 
 	setSelectedPion: (player: PlayerType, pion: PionType) =>
 		set((state) => ({
@@ -134,6 +96,12 @@ export const useGameStore = create<GameState>((set) => ({
 				},
 			},
 		})),
+
+	resetGame: () => {
+		set(() => ({
+			...structuredClone(defaultData),
+		}));
+	},
 }));
 
 export const gameStore = useGameStore;

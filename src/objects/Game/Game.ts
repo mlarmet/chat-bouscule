@@ -5,8 +5,9 @@ import Minou from "../Animal/Minou";
 import Player from "../Player/Player";
 import Board from "./Board";
 
+import { appStore } from "services/appStore";
+import { gameStore } from "services/gameStore";
 import { gameSettings } from "services/settings";
-import { gameStore } from "services/store";
 
 export default class Game {
 	private players: Players = {
@@ -370,7 +371,7 @@ export default class Game {
 	}
 
 	private showRowWin() {
-		gameStore.getState().setTimerRun(false);
+		appStore.getState().setTimerRun(false);
 
 		this.setStatus("WON");
 
@@ -409,7 +410,7 @@ export default class Game {
 	}
 
 	private showAllPionsWin() {
-		gameStore.getState().setTimerRun(false);
+		appStore.getState().setTimerRun(false);
 
 		this.setStatus("WON");
 

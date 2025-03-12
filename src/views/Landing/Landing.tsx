@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { useGameStore } from "src/services/store";
+import { useAppStore } from "services/appStore";
 
 import background from "assets/background/background-edited.jpg";
 
@@ -14,8 +14,8 @@ export default function Landing() {
 		alert("Le mode en ligne arrivera dans une deuxième version !");
 	};
 
-	const setShowResetModal = useGameStore((state) => state.setShowResetModal);
-	const setShowQuitModal = useGameStore((state) => state.setShowQuitModal);
+	const setShowResetModal = useAppStore((state) => state.setShowResetModal);
+	const setShowQuitModal = useAppStore((state) => state.setShowQuitModal);
 
 	useEffect(() => {
 		// Prevent show modal on backup and return to play

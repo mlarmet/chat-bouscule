@@ -1,7 +1,7 @@
 import { faXmarkSquare as cross } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { useGameStore } from "services/store";
+import { useAppStore } from "services/appStore";
 
 import { useEffect } from "react";
 import "./Modal.scss";
@@ -20,10 +20,10 @@ interface ModalProps {
 }
 
 export default function Modal({ title, text, cancel, confirm }: ModalProps) {
-	const setShowResetModal = useGameStore((state) => state.setShowResetModal);
-	const setShowQuitModal = useGameStore((state) => state.setShowQuitModal);
+	const setTimerRun = useAppStore((state) => state.setTimerRun);
 
-	const setTimerRun = useGameStore((state) => state.setTimerRun);
+	const setShowResetModal = useAppStore((state) => state.setShowResetModal);
+	const setShowQuitModal = useAppStore((state) => state.setShowQuitModal);
 
 	const hideModal = () => {
 		// hide all..., simpler
@@ -49,6 +49,7 @@ export default function Modal({ title, text, cancel, confirm }: ModalProps) {
 		hideModal();
 	};
 
+	// Stop timer if modal is show
 	useEffect(() => {
 		setTimerRun(false);
 		// eslint-disable-next-line react-hooks/exhaustive-deps

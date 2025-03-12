@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
-import { useGameStore } from "services/store";
+import { useAppStore } from "services/appStore";
+import { useGameStore } from "services/gameStore";
 
 import "./Timer.scss";
 
@@ -9,12 +10,12 @@ export default function Timer() {
 
 	const tour = useGameStore((state) => state.tour);
 	const status = useGameStore((state) => state.status);
-	const timerRun = useGameStore((state) => state.timerRun);
-	const resetTrigger = useGameStore((state) => state.resetTrigger);
-
 	const timeElapsed = useGameStore((state) => state.timeElapsed);
 	const setTimeElapsed = useGameStore((state) => state.setTimeElapsed);
-	const setTimerRun = useGameStore((state) => state.setTimerRun);
+
+	const timerRun = useAppStore((state) => state.timerRun);
+	const resetTrigger = useAppStore((state) => state.resetTrigger);
+	const setTimerRun = useAppStore((state) => state.setTimerRun);
 
 	const timerRef = useRef(timeElapsed);
 	const [timeSecs, setTimeSecs] = useState(timeElapsed);

@@ -1,4 +1,4 @@
-import { useGameStore } from "services/store";
+import { useGameStore } from "services/gameStore";
 
 import useSound from "use-sound";
 

@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
+import { useAppStore } from "services/appStore";
+import { useGameStore } from "services/gameStore";
 import { gameSettings } from "services/settings";
-import { useGameStore } from "services/store";
 
 import Board from "components/Display/Display";
 import Header from "components/Header/Header";
@@ -16,13 +17,13 @@ import "./Home.scss";
 export default function Home() {
 	const navigate = useNavigate();
 
-	const resetGame = useGameStore((state) => state.resetGame);
-
 	const turn = useGameStore((state) => state.turn);
 	const tour = useGameStore((state) => state.tour);
 
-	const showResetModal = useGameStore((state) => state.showResetModal);
-	const showQuitModal = useGameStore((state) => state.showQuitModal);
+	const resetGame = useGameStore((state) => state.resetGame);
+
+	const showResetModal = useAppStore((state) => state.showResetModal);
+	const showQuitModal = useAppStore((state) => state.showQuitModal);
 
 	const showModal = () => {
 		if (showQuitModal) {

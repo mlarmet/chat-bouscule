@@ -1,5 +1,5 @@
+import { gameStore } from "services/gameStore";
 import { gameSettings } from "services/settings";
-import { gameStore } from "services/store";
 
 export default class Animal {
 	player: PlayerType;
