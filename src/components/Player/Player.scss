@@ -30,6 +30,24 @@
 
 		padding: 0 0.5rem 0.75rem 0.5rem;
 
+		@keyframes flash {
+			0%,
+			50%,
+			100% {
+				background-color: transparent;
+			}
+
+			25%,
+			75% {
+				color: var(--color-secondary-darker);
+				background-color: var(--color-primary-default);
+			}
+		}
+
+		&.flashing {
+			animation: flash 750ms ease-in backwards;
+		}
+
 		p {
 			margin: 0;
 			line-height: 0.75;

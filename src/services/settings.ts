@@ -13,6 +13,8 @@ type ModalProperties = {
 
 type GameSettings = {
 	timeShowRowInMs: number;
+	flashingSelectPlayerInMs: number;
+
 	totalPiece: number;
 
 	colors: {
@@ -38,6 +40,8 @@ type GameSettings = {
 
 export const gameSettings: GameSettings = {
 	timeShowRowInMs: 1000,
+	flashingSelectPlayerInMs: 750,
+
 	totalPiece: 8,
 
 	colors: {

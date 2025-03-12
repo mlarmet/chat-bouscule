@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from "react";
 import { useGameStore } from "services/gameStore";
 
 import useSound from "use-sound";
@@ -12,57 +13,76 @@ interface PlayerProps {
 	visible: boolean;
 }
 
-export default function Player({ player, visible }: PlayerProps) {
-	const players = useGameStore((state) => state.players);
+export default function Player({ player: role, visible }: PlayerProps) {
+	const player = useGameStore((state) => state.players[role]);
 
 	const setSelectedPion = useGameStore((state) => state.setSelectedPion);
 
-	const [playMatou] = useSound([matouSound, minouSound], {
+	const [minouClass, setMinouClass] = useState("");
+	const [matouClass, setMatouClass] = useState("");
+
+	const types: {
+		[key in PionType]: CallableFunction;
+	} = useMemo(
+		() => ({
+			minou: setMinouClass,
+			matou: setMatouClass,
+		}),
+		[]
+	);
+
+	const [playMatouSound] = useSound([matouSound, minouSound], {
 		interrupt: true,
 		volume: 0.5,
 	});
 
-	const [playMinou] = useSound(minouSound, {
+	const [playMinouSound] = useSound(minouSound, {
 		interrupt: true,
 		volume: 0.5,
 	});
 
 	const selectPion = (pion: PionType) => {
-		if (players[player].pions[pion].stock === 0) {
+		if (player.pions[pion].stock === 0) {
 			return;
 		}
 
-		setSelectedPion(player, pion);
+		setSelectedPion(role, pion);
 
 		if (pion === "minou") {
-			playMinou();
+			playMinouSound();
 		} else if (pion === "matou") {
-			playMatou();
+			playMatouSound();
 		}
 	};
 
-	const getState = (pion: PionType) => {
-		if (players[player].pions[pion].stock <= 0) {
-			return " disabled";
-		}
+	useEffect(() => {
+		Object.entries(types).forEach(([pion, setClass]) => {
+			const pionKey = pion as PionType;
+			if (player.pions[pionKey].stock <= 0) {
+				setClass(" disabled");
+				return;
+			}
 
-		if (players[player].selectedPion === pion) {
-			return " selected";
-		}
+			if (player.selectedPion === pion) {
+				types[pion](" selected");
+				return;
+			}
 
-		return "";
-	};
+			setClass("");
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [player]);
 
 	return (
-		<div id={player} className={"player" + (visible ? "" : " hide")}>
-			<div className={"sprite-selector" + getState("minou")} onClick={() => selectPion("minou")}>
-				<img className="sprite" src={`assets/sprites/minou_${player}.png`} alt="" />
+		<div id={role} className={"player" + (visible ? "" : " hide")}>
+			<div className={"sprite-selector" + minouClass} onClick={() => selectPion("minou")}>
+				<img className="sprite" src={`assets/sprites/minou_${role}.png`} alt="" />
 
-				<p>{players[player].pions.minou.stock}</p>
+				<p>{player.pions.minou.stock}</p>
 			</div>
-			<div className={"sprite-selector" + getState("matou")} onClick={() => selectPion("matou")}>
-				<img className="sprite" src={`assets/sprites/matou_${player}.png`} alt="" />
-				<p>{players[player].pions.matou.stock}</p>
+			<div className={"sprite-selector" + matouClass} onClick={() => selectPion("matou")}>
+				<img className="sprite" src={`assets/sprites/matou_${role}.png`} alt="" />
+				<p>{player.pions.matou.stock}</p>
 			</div>
 		</div>
 	);

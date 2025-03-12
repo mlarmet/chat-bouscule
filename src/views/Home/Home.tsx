@@ -21,6 +21,7 @@ export default function Home() {
 	const tour = useGameStore((state) => state.tour);
 
 	const resetGame = useGameStore((state) => state.resetGame);
+	const addResetTrigger = useAppStore((state) => state.addResetTrigger);
 
 	const showResetModal = useAppStore((state) => state.showResetModal);
 	const showQuitModal = useAppStore((state) => state.showQuitModal);
@@ -36,7 +37,11 @@ export default function Home() {
 						text: quitModal.cancel.text,
 					}}
 					confirm={{
-						action: () => navigate(__BASE_URL__),
+						action: () => {
+							navigate(__BASE_URL__);
+							addResetTrigger();
+							resetGame();
+						},
 						text: quitModal.confirm.text,
 					}}
 				/>
@@ -51,7 +56,10 @@ export default function Home() {
 						text: resetModal.cancel.text,
 					}}
 					confirm={{
-						action: resetGame,
+						action: () => {
+							addResetTrigger();
+							resetGame();
+						},
 						text: resetModal.confirm.text,
 					}}
 				/>
@@ -80,7 +88,8 @@ export default function Home() {
 				<Board />
 
 				<div id="players-infos">
-					<Player player="gris" visible={turn === "gris"} /> <Player player="jaune" visible={turn === "jaune"} />
+					<Player player="gris" visible={turn === "gris"} />
+					<Player player="jaune" visible={turn === "jaune"} />
 				</div>
 			</div>
 		</div>

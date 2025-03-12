@@ -32,6 +32,8 @@ export default function Header() {
 			setShoQuitModal(true);
 		} else {
 			navigate(__BASE_URL__);
+			resetGame();
+			addResetTrigger();
 		}
 	};
 

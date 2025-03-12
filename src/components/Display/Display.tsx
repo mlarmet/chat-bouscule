@@ -18,7 +18,12 @@ export default function Board() {
 		const board = document.getElementById("board");
 
 		if (board) {
-			setCanvasSize(Math.min(board!.offsetWidth, board.offsetHeight));
+			const size = Math.min(board!.offsetWidth, board.offsetHeight);
+			setCanvasSize(size);
+
+			if (size !== 0 && gameRef.current) {
+				gameRef.current.init(size);
+			}
 		}
 	};
 
@@ -28,14 +33,6 @@ export default function Board() {
 
 		gameRef.current!.play(eventX, eventY);
 	};
-
-	useEffect(() => {
-		if (canvasSize !== 0) {
-			if (gameRef.current) {
-				gameRef.current.init(canvasSize);
-			}
-		}
-	}, [canvasSize]);
 
 	useEffect(() => {
 		if (resetTrigger > 0) {

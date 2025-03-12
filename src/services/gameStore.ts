@@ -4,7 +4,7 @@ import Animal from "src/objects/Animal/Animal";
 
 type PlayerData = {
 	pions: Characters;
-	selectedPion: PionType;
+	selectedPion?: PionType;
 };
 
 type GameState = {
@@ -25,7 +25,7 @@ type GameState = {
 	setStatus: (status: GameStatus) => void;
 
 	setPions: (player: PlayerType, pions: Characters) => void;
-	setSelectedPion: (player: PlayerType, pion: PionType) => void;
+	setSelectedPion: (player: PlayerType, pion?: PionType) => void;
 
 	resetGame: () => void;
 };
@@ -42,7 +42,7 @@ const defaultPlayerData: PlayerData = {
 		},
 	},
 
-	selectedPion: "minou",
+	selectedPion: undefined,
 };
 
 // Omit functions
@@ -73,7 +73,7 @@ export const useGameStore = create<GameState>((set) => ({
 	setStatus: (status: GameStatus) => set({ status: status }),
 	setTimeElapsed: (time: number) => set({ timeElapsed: time }),
 
-	setSelectedPion: (player: PlayerType, pion: PionType) =>
+	setSelectedPion: (player: PlayerType, pion?: PionType) =>
 		set((state) => ({
 			players: {
 				...state.players,

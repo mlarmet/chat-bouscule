@@ -37,6 +37,9 @@ export default class Game {
 
 		this.board.drawBoard();
 
+		this.players.gris.updateSelectedPion();
+		this.players.jaune.updateSelectedPion();
+
 		switch (this.getStatus()) {
 			case "SELECT":
 				this.showSelectPion();
@@ -56,24 +59,6 @@ export default class Game {
 			default:
 				this.setStatus("IDLE");
 		}
-
-		// let color = gameSettings.colors.win;
-
-		// this.board.drawRect(1, 1, color);
-		// this.board.drawRect(2, 2, color);
-		// this.board.drawRect(3, 3, color);
-
-		// color = gameSettings.colors.row;
-
-		// this.board.drawRect(3, 0, color);
-		// this.board.drawRect(4, 1, color);
-		// this.board.drawRect(5, 2, color);
-
-		// color = gameSettings.colors.pick;
-
-		// this.board.drawRect(0, 4, color);
-		// this.board.drawRect(2, 5, color);
-		// this.board.drawRect(5, 4, color);
 	}
 
 	getPlayersData() {
@@ -251,8 +236,8 @@ export default class Game {
 						break;
 					}
 
-					const samePlayer = animal.player === startAnimal.player && animal.player === player;
-					if (!samePlayer) {
+					const isSamePlayer = animal.player === startAnimal.player && animal.player === player;
+					if (!isSamePlayer) {
 						break;
 					}
 
@@ -297,11 +282,9 @@ export default class Game {
 		const color = gameSettings.colors.pick;
 
 		for (const animal of this.getMapAnimal().values()) {
-			if (animal instanceof Matou || animal.player !== player.role) {
-				continue;
+			if (animal.player === player.role) {
+				this.board.drawRect(animal.row, animal.col, color);
 			}
-
-			this.board.drawRect(animal.row, animal.col, color);
 		}
 	}
 
@@ -452,12 +435,28 @@ export default class Game {
 
 		let animal: Animal;
 
-		if (player.getSelectedPion() === "matou") {
+		const selectedPion = player.getSelectedPion();
+
+		if (selectedPion === "matou") {
 			player.playMatou();
 			animal = new Matou(this.getTurn());
-		} else {
+		} else if (selectedPion === "minou") {
 			player.playMinou();
 			animal = new Minou(this.getTurn());
+		} else {
+			const selectors = document.querySelectorAll(`#${player.role} .sprite-selector`);
+
+			for (const selector of selectors) {
+				if (!selector.classList.contains("flashing")) {
+					selector.classList.add("flashing");
+
+					setTimeout(() => {
+						selector.classList.remove("flashing");
+					}, gameSettings.flashingSelectPlayerInMs);
+				}
+			}
+
+			return;
 		}
 
 		this.getMapAnimal().set(`${row},${col}`, animal);
