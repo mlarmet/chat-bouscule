@@ -15,7 +15,11 @@
 			"purpose": "maskable"
 		}
 	],
+	"id": "/chat-bouscule/",
+	"start_url": "/chat-bouscule/",
+	"display": "standalone",
+	"lang": "fr",
+	"scope": "/chat-bouscule/",
 	"theme_color": "#ffbf2b",
-	"background_color": "#082046",
-	"display": "standalone"
+	"background_color": "#082046"
 }
