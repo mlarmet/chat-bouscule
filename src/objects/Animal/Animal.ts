@@ -39,8 +39,8 @@ export default class Animal {
 				return;
 			}
 
-			const targetX = Math.round(this.row * this.cellSize + lineWidth * (this.row + 1));
-			const targetY = Math.round(this.col * this.cellSize + lineWidth * (this.col + 1));
+			const targetX = this.row * this.cellSize + lineWidth * (this.row + 1);
+			const targetY = this.col * this.cellSize + lineWidth * (this.col + 1);
 
 			const dx = targetX - this.x;
 			const dy = targetY - this.y;
