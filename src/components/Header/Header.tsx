@@ -5,6 +5,7 @@ import { useAppStore } from "services/appStore";
 import { useGameStore } from "services/gameStore";
 
 import { useModal } from "components/Modal/ModalContext";
+import Title from "components/Title/Title";
 
 import "./Header.scss";
 
@@ -42,10 +43,7 @@ export default function Header() {
 
 	return (
 		<header>
-			<div className="title">
-				<h1>Chat</h1>
-				<h2>Bouscule</h2>
-			</div>
+			<Title />
 
 			<button id="reset" className="btn valid icon" onClick={handleReset}>
 				<FontAwesomeIcon icon={faRotateRight} />

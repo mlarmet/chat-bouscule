@@ -18,8 +18,7 @@ type AppSate = {
 	setShowCreditModal: (show: boolean) => void;
 };
 
-// Omit functions
-const defaultData: Omit<AppSate, "resetGame" | "addResetTrigger" | "setShowCreditModal" | "setShowResetModal" | "setShowQuitModal" | "setTimerRun"> = {
+export const useAppStore = create<AppSate>((set) => ({
 	timerRun: false,
 
 	resetTrigger: 0,
@@ -27,10 +26,6 @@ const defaultData: Omit<AppSate, "resetGame" | "addResetTrigger" | "setShowCredi
 	showResetModal: false,
 	showQuitModal: false,
 	showCreditModal: false,
-};
-
-export const useAppStore = create<AppSate>((set) => ({
-	...structuredClone(defaultData),
 
 	setTimerRun: (run: boolean) => set({ timerRun: run }),
 

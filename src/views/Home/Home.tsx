@@ -14,10 +14,10 @@ export default function Home() {
 	const tour = useGameStore((state) => state.tour);
 
 	return (
-		<div id="home" className="view">
+		<div id="home" className="view default">
 			<Header />
 
-			<div id="content">
+			<div className="content">
 				<div id="infos">
 					<div id="data">
 						<p id="time">

@@ -1,3 +1,5 @@
+// ------- Game Types -------
+
 type PlayerType = "gris" | "jaune";
 type Players = Record<PlayerType, Player>;
 
@@ -13,6 +15,8 @@ type Characters = {
 };
 
 type GameStatus = "IDLE" | "SELECT" | "ROW" | "MOVING" | "WON" | "STOPPED";
+
+// ------- Modal Types -------
 
 type ModalType = "quit" | "reset" | "credit";
 

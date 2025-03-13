@@ -1,0 +1,24 @@
+.title {
+	font-family: "jua";
+
+	display: flex;
+	flex-direction: column;
+
+	align-items: center;
+
+	color: var(--color-primary-default);
+
+	h1,
+	h2 {
+		margin: 0;
+		font-weight: 400;
+
+		text-align: center;
+	}
+
+	&.small {
+		h2 {
+			margin-top: -15px;
+		}
+	}
+}

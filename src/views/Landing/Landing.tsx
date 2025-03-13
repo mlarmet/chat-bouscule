@@ -6,6 +6,8 @@ import { useAppStore } from "services/appStore";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import Title from "components/Title/Title";
+
 import background from "assets/background/background-edited.jpg";
 
 import "./Landing.scss";
@@ -44,10 +46,7 @@ export default function Landing() {
 			<img src={__BASE_URL__ + "/assets/sprites/minou_gris.png"} alt="sprite-1" id="sprite1" className="decoration" />
 			<img src={__BASE_URL__ + "/assets/sprites/minou_jaune.png"} alt="sprite-2" id="sprite2" className="decoration" />
 
-			<div className="title">
-				<h1>Chat</h1>
-				<h2>Bouscule</h2>
-			</div>
+			<Title />
 
 			<div id="play">
 				{/* TODO : multi-joueurs */}
