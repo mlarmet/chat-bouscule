@@ -67,7 +67,7 @@ export default function Modal({ modal, children }: ModalProps) {
 					<FontAwesomeIcon icon={cross} fontSize={24} />
 				</button>
 
-				<div className="content">
+				<div className="modal-content">
 					<h2>{modal.title}</h2>
 					<p>{modal.text}</p>
 				</div>
