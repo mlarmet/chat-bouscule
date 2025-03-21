@@ -16,6 +16,19 @@
 		text-align: center;
 	}
 
+	&.landing {
+		margin-top: 10vh;
+
+		h1 {
+			font-size: 80px;
+		}
+
+		h2 {
+			font-size: 60px;
+			margin-top: -45px;
+		}
+	}
+
 	&.small {
 		h2 {
 			margin-top: -15px;

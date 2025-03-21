@@ -1,6 +1,3 @@
-import { faXmarkSquare as cross } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import { useAppStore } from "services/appStore";
 
 import { useEffect } from "react";
@@ -63,8 +60,8 @@ export default function Modal({ modal, children }: ModalProps) {
 	return (
 		<div className="modal-container" onClick={handleOutClick}>
 			<div className="modal">
-				<button className="cross" onClick={handleCancel}>
-					<FontAwesomeIcon icon={cross} fontSize={24} />
+				<button className="material-icons-round cross" onClick={handleCancel}>
+					disabled_by_default
 				</button>
 
 				<div className="modal-content">
@@ -75,13 +72,13 @@ export default function Modal({ modal, children }: ModalProps) {
 				{modal.actions && (
 					<div className="actions">
 						{modal.actions.cancel && (
-							<button className="btn primary cancel" onClick={handleCancel}>
+							<button className="btn primary valid" onClick={handleCancel}>
 								{modal.actions.cancel.text}
 							</button>
 						)}
 
 						{modal.actions.confirm && (
-							<button className="btn primary confirm" onClick={confirmModal}>
+							<button className="btn primary alert" onClick={confirmModal}>
 								{modal.actions.confirm.text}
 							</button>
 						)}

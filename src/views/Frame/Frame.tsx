@@ -22,7 +22,7 @@ export default function Frame() {
 
 					<Routes>
 						<Route path="/" element={<Landing />} />
-						<Route path="jeu" element={<Home />}></Route>
+						<Route path="jeu" element={<Home />} />
 						<Route path="*" element={<Navigate to="/" replace />} />
 					</Routes>
 				</ModalProvider>

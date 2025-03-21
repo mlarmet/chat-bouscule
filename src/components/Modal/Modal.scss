@@ -17,10 +17,14 @@
 
 	&,
 	.modal {
-		padding: 20px;
+		padding: 1.25rem;
 	}
 
 	.modal {
+		&.only-exit {
+			padding: 3.5rem 2.5rem 2.5rem 2.5rem;
+		}
+
 		flex: 1;
 
 		position: relative;
@@ -30,7 +34,7 @@
 
 		border-radius: 1rem;
 
-		gap: 40px;
+		gap: 2.5rem;
 
 		&,
 		.modal-content {
@@ -39,7 +43,7 @@
 		}
 
 		.modal-content {
-			gap: 20px;
+			gap: 1.25rem;
 
 			h2,
 			p {
@@ -47,15 +51,19 @@
 			}
 
 			h2 {
-				font-size: 24px;
-				line-height: 24px;
+				font-size: 1.5rem;
+				line-height: 1.5rem;
+			}
+
+			p {
+				white-space: pre-line;
 			}
 		}
 
 		.cross {
 			position: absolute;
-			top: 20px;
-			right: 20px;
+			top: 1.25rem;
+			right: 1.25rem;
 
 			color: var(--color-others-dark);
 		}
@@ -64,17 +72,10 @@
 			display: flex;
 			justify-content: stretch;
 
-			gap: 20px;
+			gap: 1.25rem;
 
 			button {
 				flex: 1;
-				&.cancel::after {
-					background-color: var(--color-others-valid);
-				}
-
-				&.confirm::after {
-					background-color: var(--color-others-alert);
-				}
 			}
 		}
 	}

@@ -15,13 +15,12 @@
 	<!-- PWA -->
 	<meta name="full-screen" content="yes" />
 	<meta name="mobile-web-app-capable" content="yes" />
+	<meta name="theme-color" content="#082046" />
 
 	<!-- iOS PWA Support -->
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<!-- Change in black for safari only -->
-	<meta name="theme-color" content="#ffbf2b" />
 	<!-- Only for PWA iOS (not safari) -->
-	<meta name="apple-mobile-web-app-status-bar-style" , content="black-translucent" />
+	<!-- <meta name="apple-mobile-web-app-status-bar-style" , content="black-translucent" /> -->
 
 	<!-- FONTS -->
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -40,13 +39,6 @@
 
 <body>
 	<div id="root"></div>
-
-	<script>
-		if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-			// If the device is iOS, set theme-color to black for background
-			document.querySelector('meta[name="theme-color"]').setAttribute("content", "#000");
-		}
-	</script>
 
 	<script type="module" src="/src/main.tsx"></script>
 </body>

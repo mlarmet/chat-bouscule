@@ -1,6 +1,3 @@
-import { faRotateRight, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import { useAppStore } from "services/appStore";
 import { useGameStore } from "services/gameStore";
 
@@ -43,14 +40,14 @@ export default function Header() {
 
 	return (
 		<header>
-			<Title />
+			<Title small />
 
 			<button id="reset" className="btn valid icon" onClick={handleReset}>
-				<FontAwesomeIcon icon={faRotateRight} />
+				<span className="material-icons-round">restart_alt</span>
 			</button>
 
 			<button id="exit" className="btn alert icon" onClick={handleExit}>
-				<FontAwesomeIcon icon={faXmark} fontSize={20} />
+				<span className="material-icons-round">close</span>
 			</button>
 		</header>
 	);

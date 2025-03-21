@@ -17,7 +17,7 @@ export default function Home() {
 		<div id="home" className="view default">
 			<Header />
 
-			<div className="content">
+			<div id="home-content" className="content">
 				<div id="infos">
 					<div id="data">
 						<p id="time">

@@ -1,7 +1,6 @@
 :root {
 	--color-primary-default: #ffbf2b;
 
-	// --color-secondary-default: #0d2f52;
 	--color-secondary-default: #173a5d;
 	--color-secondary-darker: #082046;
 
@@ -51,7 +50,8 @@ body {
 }
 
 p {
-	line-height: 19px;
+	letter-spacing: 0.3px;
+	line-height: 1.25rem;
 }
 
 button {
@@ -66,8 +66,6 @@ button {
 	padding: 0;
 
 	font-family: "Baloo 2", sans-serif;
-	font-size: 16px;
-	line-height: 16px;
 
 	cursor: pointer;
 }
@@ -78,8 +76,13 @@ button.btn {
 	text-decoration: none;
 
 	font-weight: bold;
+	font-size: 1rem;
+	line-height: 1rem;
 
-	&,
+	&:disabled {
+		opacity: 50%;
+	}
+
 	&::before,
 	&::after {
 		border-radius: 0.5rem;
@@ -119,7 +122,7 @@ button.btn {
 		// Coutner bottom space - 2px = - 5px delta + 3px border
 		padding: calc($paddingV - 2px) $paddingH calc($paddingV + 2px) $paddingH;
 
-		&:hover {
+		&:hover:not(:disabled) {
 			padding-top: calc($paddingV + 3px);
 			padding-bottom: calc($paddingV - 3px);
 
@@ -136,34 +139,31 @@ button.btn {
 			z-index: -1;
 
 			position: absolute;
-		}
-
-		&::after {
 			left: 0;
 			right: 0;
 			top: 0;
+		}
+
+		&::after {
 			bottom: 5px;
 
 			border: 3px var(--color-others-dark) solid;
 			background-color: var(--color-primary-default);
 		}
 
-		&.valid::after {
-			background-color: var(--color-others-valid);
-		}
-
-		&.alert::after {
-			background-color: var(--color-others-alert);
-		}
-
 		&::before {
-			left: 0;
-			right: 0;
-			top: 0;
 			bottom: 0;
 
 			background-color: var(--color-others-dark);
 		}
+	}
+
+	&.valid::after {
+		background-color: var(--color-others-valid);
+	}
+
+	&.alert::after {
+		background-color: var(--color-others-alert);
 	}
 
 	&.secondary {
@@ -185,9 +185,9 @@ button.btn {
 
 	&.default {
 		background: linear-gradient(var(--color-secondary-darker), var(--color-secondary-default));
-		padding: 20px;
+		padding: 1.25rem;
 
-		gap: 20px;
+		gap: 1.25rem;
 	}
 }
 
@@ -197,12 +197,17 @@ button.btn {
 	display: flex;
 	flex-direction: column;
 
-	gap: 20px;
+	gap: 1.25rem;
 
-	@media screen and (min-height: 750px) {
-		padding: 20px 0;
+	@media screen and (min-height: 700px) {
+		padding: 1.25rem 0;
 	}
 	@media screen and (min-height: 800px) {
-		padding: 40px 0;
+		padding: 2.5rem 0;
 	}
+}
+
+.decoration {
+	position: absolute;
+	z-index: -1;
 }

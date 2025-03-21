@@ -4,21 +4,22 @@
 	align-items: center;
 	justify-content: space-between;
 
-	padding: 40px 20px;
+	padding: 2.5rem 1.25rem;
 
 	background-color: var(--color-secondary-darker);
 
 	#credits {
 		position: absolute;
-		top: 20px;
-		right: 20px;
+		top: 1.25rem;
+		right: 1.25rem;
 
-		color: var(--color-others-light);
-	}
+		color: var(--color-secondary-default);
+		background-color: var(--color-others-light);
 
-	.decoration {
-		position: absolute;
-		z-index: -1;
+		border-radius: 50rem;
+
+		width: 2rem;
+		height: 2rem;
 	}
 
 	#sprite1 {
@@ -50,29 +51,21 @@
 		width: 403px;
 	}
 
-	.title {
-		margin-top: 10vh;
-
-		h1 {
-			font-size: 80px;
-		}
-
-		h2 {
-			font-size: 60px;
-			margin-top: -45px;
-		}
-	}
-
 	#play {
 		display: flex;
 		flex-direction: column;
 
-		gap: 20px;
+		gap: 1.25rem;
 
 		width: 100%;
 
+		.btn {
+			// keep start button highter
+			line-height: unset !important;
+		}
+
 		@media screen and (min-height: 700px) {
-			padding-bottom: 10px;
+			padding-bottom: 0.625rem;
 		}
 	}
 }

@@ -3,9 +3,6 @@ import { Link } from "react-router-dom";
 
 import { useAppStore } from "services/appStore";
 
-import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import Title from "components/Title/Title";
 
 import background from "assets/background/background-edited.jpg";
@@ -39,14 +36,14 @@ export default function Landing() {
 	return (
 		<div id="landing" className="view">
 			<button id="credits" className="btn icon" onClick={handleCopyRightClick}>
-				<FontAwesomeIcon icon={faCircleQuestion} fontSize={32} />
+				<span className="material-icons-round">question_mark</span>
 			</button>
 
 			<img src={background} alt="background-image" id="image" className="decoration" />
 			<img src={__BASE_URL__ + "/assets/sprites/minou_gris.png"} alt="sprite-1" id="sprite1" className="decoration" />
 			<img src={__BASE_URL__ + "/assets/sprites/minou_jaune.png"} alt="sprite-2" id="sprite2" className="decoration" />
 
-			<Title />
+			<Title landing />
 
 			<div id="play">
 				{/* TODO : multi-joueurs */}
