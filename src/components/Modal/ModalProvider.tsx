@@ -1,8 +1,9 @@
 import React, { useMemo } from "react";
 
-import { useNavigate } from "react-router-dom";
-import { useAppStore } from "src/services/appStore";
-import { useGameStore } from "src/services/gameStore";
+import { useAppStore } from "services/appStore";
+import { useGameStore } from "services/gameStore";
+import { navigateTo } from "services/navigate";
+
 import { ModalContext } from "./ModalContext";
 
 interface ModalProviderProps {
@@ -10,9 +11,9 @@ interface ModalProviderProps {
 }
 
 export default function ModalProvider({ children }: ModalProviderProps) {
-	const navigate = useNavigate();
-
 	const resetGame = useGameStore((state) => state.resetGame);
+	const resetApp = useAppStore((state) => state.resetApp);
+
 	const addResetTrigger = useAppStore((state) => state.addResetTrigger);
 
 	const modalDataAction: Partial<Record<ModalType, ModalActions>> = useMemo(
@@ -20,8 +21,8 @@ export default function ModalProvider({ children }: ModalProviderProps) {
 			quit: {
 				confirm: () => {
 					resetGame();
-					addResetTrigger();
-					navigate("/");
+					resetApp();
+					navigateTo("/");
 				},
 			},
 			reset: {

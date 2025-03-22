@@ -11,7 +11,6 @@ type GameState = {
 	turn: PlayerType;
 	tour: number;
 	status: GameStatus;
-	timeElapsed: number;
 
 	mapAnimal: Map<string, Animal>;
 
@@ -21,7 +20,6 @@ type GameState = {
 
 	setTurn: (turn: PlayerType) => void;
 	addTour: () => void;
-	setTimeElapsed: (time: number) => void;
 	setStatus: (status: GameStatus) => void;
 
 	setPions: (player: PlayerType, pions: Characters) => void;
@@ -46,10 +44,9 @@ const defaultPlayerData: PlayerData = {
 };
 
 // Omit functions
-const defaultData: Omit<GameState, "resetGame" | "setTimeElapsed" | "setStatus" | "setTurn" | "addTour" | "setPions" | "setSelectedPion"> = {
+const defaultData: Omit<GameState, "resetGame" | "setStatus" | "setTurn" | "addTour" | "setPions" | "setSelectedPion"> = {
 	turn: "gris",
 	tour: 0,
-	timeElapsed: 0,
 	status: "STOPPED",
 
 	mapAnimal: new Map(),
@@ -71,7 +68,6 @@ export const useGameStore = create<GameState>((set) => ({
 		})),
 
 	setStatus: (status: GameStatus) => set({ status: status }),
-	setTimeElapsed: (time: number) => set({ timeElapsed: time }),
 
 	setSelectedPion: (player: PlayerType, pion?: PionType) =>
 		set((state) => ({
@@ -97,11 +93,10 @@ export const useGameStore = create<GameState>((set) => ({
 			},
 		})),
 
-	resetGame: () => {
+	resetGame: () =>
 		set(() => ({
 			...structuredClone(defaultData),
-		}));
-	},
+		})),
 }));
 
 export const gameStore = useGameStore;

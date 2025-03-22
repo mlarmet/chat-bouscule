@@ -11,12 +11,11 @@ export default function Header() {
 
 	const tour = useGameStore((state) => state.tour);
 
-	const setShowResetModal = useAppStore((state) => state.setShowResetModal);
-	const setShoQuitModal = useAppStore((state) => state.setShowQuitModal);
+	const setModal = useAppStore((state) => state.setModal);
 
 	const handleReset = () => {
 		if (tour > 0) {
-			setShowResetModal(true);
+			setModal("reset", true);
 		} else {
 			const action = modalDataAction["reset"]?.confirm;
 
@@ -27,8 +26,7 @@ export default function Header() {
 	};
 
 	const handleExit = () => {
-		if (tour > 0) {
-			setShoQuitModal(true);
+			setModal("quit", true);
 		} else {
 			const action = modalDataAction["quit"]?.confirm;
 

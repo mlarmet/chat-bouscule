@@ -10,25 +10,23 @@ import background from "assets/background/background-edited.jpg";
 import "./Landing.scss";
 
 export default function Landing() {
-	const setShowResetModal = useAppStore((state) => state.setShowResetModal);
-	const setShowQuitModal = useAppStore((state) => state.setShowQuitModal);
-	const setShowCreditModal = useAppStore((state) => state.setShowCreditModal);
-
-	const handleClick = (e: React.MouseEvent) => {
-		e.preventDefault();
-
-		alert("Le mode en ligne arrivera dans une deuxième version !");
-	};
+	const setModal = useAppStore((state) => state.setModal);
 
 	const handleCopyRightClick = () => {
-		setShowCreditModal(true);
+		setModal("credit", true);
 	};
 
 	useEffect(() => {
 		// Prevent show modal on backup and return to play
-		setShowResetModal(false);
-		setShowQuitModal(false);
-		setShowCreditModal(false);
+		// keep lost connection modal open if it is
+		setModal("reset", false);
+		setModal("quit", false);
+		setModal("credit", false);
+		setModal("errorCamera", false);
+		setModal("errorCode", false);
+		setModal("qrScan", false);
+		setModal("qrCodeError", false);
+		setModal("qrCode", false);
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);

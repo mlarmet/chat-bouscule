@@ -1,11 +1,13 @@
 import { useEffect } from "react";
-import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Navigate, Route, BrowserRouter as Router, Routes, useNavigate } from "react-router-dom";
 
 import ModalManager from "components/Modal/ModalManager";
 import ModalProvider from "components/Modal/ModalProvider";
 
 import Home from "views/Home/Home";
 import Landing from "views/Landing/Landing";
+
+import { setNavigate } from "services/navigate";
 
 import "./Frame.scss";
 
@@ -19,10 +21,11 @@ export default function Frame() {
 			<Router basename={__BASE_URL__}>
 				<ModalProvider>
 					<ModalManager />
+					<NavigatorSetter />
 
 					<Routes>
 						<Route path="/" element={<Landing />} />
-						<Route path="jeu" element={<Home />} />
+						<Route path="/jeu" element={<Home />} />
 						<Route path="*" element={<Navigate to="/" replace />} />
 					</Routes>
 				</ModalProvider>
@@ -30,3 +33,14 @@ export default function Frame() {
 		</div>
 	);
 }
+
+// A helper component to store the navigate function
+const NavigatorSetter = () => {
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		setNavigate(navigate);
+	}, [navigate]);
+
+	return null;
+};

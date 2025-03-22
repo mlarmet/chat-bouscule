@@ -8,6 +8,7 @@ import Board from "./Board";
 import { appStore } from "services/appStore";
 import { gameStore } from "services/gameStore";
 import { gameSettings } from "services/settings";
+import { navigateTo } from "services/navigate";
 
 export default class Game {
 	private players: Players = {

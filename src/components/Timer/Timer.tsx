@@ -10,15 +10,12 @@ export default function Timer() {
 
 	const tour = useGameStore((state) => state.tour);
 	const status = useGameStore((state) => state.status);
-	const timeElapsed = useGameStore((state) => state.timeElapsed);
-	const setTimeElapsed = useGameStore((state) => state.setTimeElapsed);
 
 	const timerRun = useAppStore((state) => state.timerRun);
 	const resetTrigger = useAppStore((state) => state.resetTrigger);
 	const setTimerRun = useAppStore((state) => state.setTimerRun);
 
-	const timerRef = useRef(timeElapsed);
-	const [timeSecs, setTimeSecs] = useState(timeElapsed);
+	const [timeSecs, setTimeSecs] = useState(0);
 
 	const formatTime = (secs: number) => {
 		const hours = Math.floor(secs / 3600)
@@ -32,14 +29,15 @@ export default function Timer() {
 		return `${hours}:${minutes}:${secsFormatted}`;
 	};
 
+	const resetValue = () => {
+		setTimerRun(false);
+		setTimeSecs(0);
+	};
+
 	useEffect(() => {
 		if (timerRun) {
 			intervalRef.current = setInterval(() => {
-				setTimeSecs((prev) => {
-					const newTimer = prev + 1;
-					timerRef.current = newTimer;
-					return newTimer;
-				});
+				setTimeSecs((prev) => prev + 1);
 			}, 1000);
 		} else {
 			clearInterval(intervalRef.current);
@@ -48,17 +46,6 @@ export default function Timer() {
 
 		return () => clearInterval(intervalRef.current);
 	}, [timerRun]);
-
-	useEffect(() => {
-		if (resetTrigger > 0) {
-			setTimerRun(false);
-			setTimeElapsed(0);
-			// Set 0 here cause if timeElapsed not changed,
-			// timeElapsed will not being trigger
-			setTimeSecs(0);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [resetTrigger]);
 
 	useEffect(() => {
 		if (!timerRun) {
@@ -72,11 +59,16 @@ export default function Timer() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [tour]);
 
-	// Store timer on timer unmount
 	useEffect(() => {
-		return () => {
-			setTimeElapsed(timerRef.current);
-		};
+		if (resetTrigger > 0) {
+			resetValue();
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [resetTrigger]);
+
+	useEffect(() => {
+		// for first move
+		resetValue();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

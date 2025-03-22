@@ -5,49 +5,57 @@ import { gameSettings } from "services/settings";
 
 import { useModal } from "./ModalContext";
 
+import CodeReader from "components/Modal/CodeReader/CodeReader";
 import Modal from "components/Modal/Modal";
+import QrCode from "components/Modal/QrCode/QrCode";
 
 export default function ModalManager() {
 	const { modalDataAction } = useModal();
 
 	const [modalData, setModalData] = useState<ModalProperties>();
 
-	const showResetModal = useAppStore((state) => state.showResetModal);
-	const showQuitModal = useAppStore((state) => state.showQuitModal);
-	const showCreditModal = useAppStore((state) => state.showCreditModal);
+	const [showQrCode, setShowQrCode] = useState(false);
+	const [showScan, setShowScan] = useState(false);
+
+	const modals = useAppStore((state) => state.modals);
 
 	useEffect(() => {
-		for (const [modalName, isShow] of Object.entries({
-			credit: showCreditModal,
-			reset: showResetModal,
-			quit: showQuitModal,
-		})) {
-			if (isShow) {
-				const modal = modalName as ModalType;
+		const activeModal = Object.entries(modals).find(([, isShow]) => isShow);
 
-				const data = gameSettings.modal[modal];
-
-				const modalActions = modalDataAction[modal];
-
-				if (data.actions && modalActions) {
-					if (data.actions.cancel) {
-						data.actions.cancel.action = modalActions.cancel;
-					}
-
-					if (data.actions.confirm) {
-						data.actions.confirm.action = modalActions.confirm;
-					}
-				}
-
-				setModalData(data);
-
+		if (activeModal) {
+			if (activeModal[0] === "qrScan") {
+				setShowScan(true);
+				return;
+			} else if (activeModal[0] === "qrCode") {
+				setShowQrCode(true);
 				return;
 			}
+
+			const [modalName] = activeModal as [ModalType, boolean];
+			const data = gameSettings.modal[modalName];
+			const modalActions = modalDataAction[modalName];
+
+			if (data && data.actions && modalActions) {
+				if (data.actions.cancel) data.actions.cancel.action = modalActions.cancel;
+				if (data.actions.confirm) data.actions.confirm.action = modalActions.confirm;
+			}
+
+			setModalData(data);
+		} else {
+			setModalData(undefined);
 		}
 
-		setModalData(undefined);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [showResetModal, showCreditModal, showQuitModal]);
+		setShowQrCode(false);
+		setShowScan(false);
 
-	return <>{modalData && <Modal modal={modalData} />}</>;
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [modals]);
+
+	return (
+		<>
+			{modalData ? <Modal modal={modalData} /> : ""}
+			{showQrCode ? <QrCode /> : ""}
+			{showScan ? <CodeReader /> : ""}
+		</>
+	);
 }

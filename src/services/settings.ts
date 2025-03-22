@@ -20,7 +20,7 @@ type GameSettings = {
 		};
 	};
 
-	modal: Record<ModalType, ModalProperties>;
+	modal: Record<ModalType, ModalProperties | undefined>;
 };
 
 export const gameSettings: GameSettings = {

@@ -5,35 +5,38 @@ type AppSate = {
 
 	resetTrigger: number;
 
-	showResetModal: boolean;
-	showQuitModal: boolean;
-	showCreditModal: boolean;
+	modals: Record<ModalType, boolean>;
+
+	setModal: (modal: ModalType, show: boolean) => void;
+	hideAll: () => void;
 
 	setTimerRun: (run: boolean) => void;
 
+	resetApp: () => void;
 	addResetTrigger: () => void;
-
-	setShowResetModal: (show: boolean) => void;
-	setShowQuitModal: (show: boolean) => void;
-	setShowCreditModal: (show: boolean) => void;
 };
 
 export const useAppStore = create<AppSate>((set) => ({
+	modals: structuredClone(defaultModalData),
+
+	setModal: (modal: ModalType, show: boolean) =>
+		set((state) => ({
+			modals: { ...state.modals, [modal]: show },
+		})),
+
+	hideAll: () =>
+		set(() => ({
+			modals: structuredClone(defaultModalData),
+		})),
+
 	timerRun: false,
+setTimerRun: (run: boolean) => set({ timerRun: run }),
 
 	resetTrigger: 0,
 
-	showResetModal: false,
-	showQuitModal: false,
-	showCreditModal: false,
-
-	setTimerRun: (run: boolean) => set({ timerRun: run }),
+	resetApp: () => set(() => ({ resetTrigger: 0, timerRun: false })),
 
 	addResetTrigger: () => set((state) => ({ resetTrigger: state.resetTrigger + 1 })),
-
-	setShowResetModal: (show: boolean) => set({ showResetModal: show }),
-	setShowQuitModal: (show: boolean) => set({ showQuitModal: show }),
-	setShowCreditModal: (show: boolean) => set({ showCreditModal: show }),
 }));
 
 export const appStore = useAppStore;

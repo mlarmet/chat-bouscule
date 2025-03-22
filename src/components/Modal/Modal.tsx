@@ -1,6 +1,7 @@
+import { useEffect } from "react";
+
 import { useAppStore } from "services/appStore";
 
-import { useEffect } from "react";
 import "./Modal.scss";
 
 interface ModalProps {
@@ -11,16 +12,12 @@ interface ModalProps {
 
 export default function Modal({ modal, children }: ModalProps) {
 	const setTimerRun = useAppStore((state) => state.setTimerRun);
+	const hideAll = useAppStore((state) => state.hideAll);
 
-	const setShowResetModal = useAppStore((state) => state.setShowResetModal);
-	const setShowQuitModal = useAppStore((state) => state.setShowQuitModal);
-	const setShowCreditModal = useAppStore((state) => state.setShowCreditModal);
+	
 
 	const hideModal = () => {
-		// hide all..., simpler
-		setShowQuitModal(false);
-		setShowResetModal(false);
-		setShowCreditModal(false);
+		hideAll();
 
 		setTimerRun(true);
 	};
