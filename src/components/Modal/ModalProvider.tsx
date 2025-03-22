@@ -1,7 +1,10 @@
 import React, { useMemo } from "react";
 
 import { useAppStore } from "services/appStore";
+import { connectionStore } from "services/connectionStore";
 import { useGameStore } from "services/gameStore";
+
+import { stopConnectionToHost, stopHost } from "services/connectionService";
 import { navigateTo } from "services/navigate";
 
 import { ModalContext } from "./ModalContext";
@@ -22,6 +25,20 @@ export default function ModalProvider({ children }: ModalProviderProps) {
 				confirm: () => {
 					resetGame();
 					resetApp();
+
+					// don't need to set it on dependencies,
+					// values changes rarely and only need to know it when execute
+
+					const { connection, isHost } = connectionStore.getState();
+					// for the one who leave
+					if (connection) {
+						if (isHost) {
+							stopHost();
+						} else {
+							stopConnectionToHost(true);
+						}
+					}
+
 					navigateTo("/");
 				},
 			},

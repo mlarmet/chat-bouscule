@@ -76,5 +76,28 @@ export const gameSettings: GameSettings = {
 			title: "Crédits",
 			text: __APP_NAME__ + " s'inspire du jeu de société \"Boop\", mais n'utilise aucune ressource officielle du jeu.",
 		},
+
+		qrCodeError: {
+			title: "Erreur",
+			text: "QrCode invalide !\n\nIl doit contenir 6 caractères (chiffres ou lettres).",
+		},
+
+		errorCode: {
+			title: "Erreur",
+			text: "Erreur avec la connexion. Veuillez vérifier le code et réessayer.",
+		},
+
+		errorCamera: {
+			title: "Erreur",
+			text: "Impossible d'accéder à la caméra. Veuillez réessayer.",
+		},
+
+		lostConnection: {
+			title: "Erreur",
+			text: "L'adversaire à quitté la partie !",
+		},
+
+		qrCode: undefined,
+		qrScan: undefined,
 	},
 };

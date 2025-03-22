@@ -18,7 +18,7 @@ type GameStatus = "IDLE" | "SELECT" | "ROW" | "MOVING" | "WON" | "STOPPED";
 
 // ------- Modal Types -------
 
-type ModalType = "quit" | "reset" | "credit";
+type ModalType = "quit" | "reset" | "credit" | "qrCodeError" | "errorCode" | "qrCode" | "qrScan" | "errorCamera" | "lostConnection";
 
 type ModalProperties = {
 	title: string;
@@ -39,4 +39,23 @@ type ModalProperties = {
 type ModalActions = {
 	cancel?: CallableFunction;
 	confirm?: CallableFunction;
+};
+
+// ------- Connection Types -------
+
+type ConnectionType = "host" | "join";
+
+type DataType = "init" | "place" | "pick";
+
+type PlaceEventData = {
+	player: PlayerType;
+	animal: PionType;
+	row: number;
+	col: number;
+};
+
+type PickDataEvent = {
+	player: PlayerType;
+	row: row;
+	col: col;
 };

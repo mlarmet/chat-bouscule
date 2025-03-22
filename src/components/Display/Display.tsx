@@ -31,7 +31,7 @@ export default function Board() {
 		const eventX = e.offsetX;
 		const eventY = e.offsetY;
 
-		gameRef.current!.play(eventX, eventY);
+		gameRef.current!.playEvent(eventX, eventY);
 	};
 
 	useEffect(() => {

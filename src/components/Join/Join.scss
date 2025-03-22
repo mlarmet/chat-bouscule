@@ -1,0 +1,39 @@
+#join {
+	#inputs {
+		display: flex;
+		flex-direction: column;
+
+		gap: 1.25rem;
+
+		#input-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			gap: 1.25rem;
+
+			& :disabled {
+				opacity: 50%;
+				&,
+				#peerId-input,
+				#scanner {
+					cursor: not-allowed;
+				}
+			}
+
+			#scanner {
+				font-size: 2.25rem;
+			}
+
+			#peerId-input {
+				width: 100%;
+				font-weight: bold;
+
+				padding: 0.5rem 1rem;
+				border-radius: 0.5rem;
+
+				border: 3px solid var(--color-secondary-default);
+			}
+		}
+	}
+}

@@ -44,8 +44,7 @@ export default function Landing() {
 			<Title landing />
 
 			<div id="play">
-				{/* TODO : multi-joueurs */}
-				<Link to="/jeu" className="btn primary rounded" onClick={handleClick}>
+				<Link to="/connection" className="btn primary rounded">
 					Jouer
 				</Link>
 				<Link to="/jeu" className="btn secondary">

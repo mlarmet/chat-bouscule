@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 
 import { useAppStore } from "services/appStore";
+import { useConnectionStore } from "services/connectionStore";
 
 import "./Modal.scss";
 
@@ -14,7 +15,7 @@ export default function Modal({ modal, children }: ModalProps) {
 	const setTimerRun = useAppStore((state) => state.setTimerRun);
 	const hideAll = useAppStore((state) => state.hideAll);
 
-	
+	const connection = useConnectionStore((state) => state.connection);
 
 	const hideModal = () => {
 		hideAll();
@@ -50,7 +51,10 @@ export default function Modal({ modal, children }: ModalProps) {
 
 	// Stop timer if modal is show
 	useEffect(() => {
-		setTimerRun(false);
+		// don't stop timer if online game
+		if (!connection) {
+			setTimerRun(false);
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

@@ -16,6 +16,18 @@ type AppSate = {
 	addResetTrigger: () => void;
 };
 
+const defaultModalData = {
+	reset: false,
+	quit: false,
+	credit: false,
+	qrCode: false,
+	qrScan: false,
+	qrCodeError: false,
+	errorCamera: false,
+	errorCode: false,
+	lostConnection: false,
+};
+
 export const useAppStore = create<AppSate>((set) => ({
 	modals: structuredClone(defaultModalData),
 
@@ -30,7 +42,7 @@ export const useAppStore = create<AppSate>((set) => ({
 		})),
 
 	timerRun: false,
-setTimerRun: (run: boolean) => set({ timerRun: run }),
+	setTimerRun: (run: boolean) => set({ timerRun: run }),
 
 	resetTrigger: 0,
 

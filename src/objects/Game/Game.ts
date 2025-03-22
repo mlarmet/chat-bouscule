@@ -6,9 +6,11 @@ import Player from "../Player/Player";
 import Board from "./Board";
 
 import { appStore } from "services/appStore";
+import { eventKeySeparator, sendData, stopConnectionToHost, stopHost } from "services/connectionService";
+import { connectionStore } from "services/connectionStore";
 import { gameStore } from "services/gameStore";
-import { gameSettings } from "services/settings";
 import { navigateTo } from "services/navigate";
+import { gameSettings } from "services/settings";
 
 export default class Game {
 	private players: Players = {
@@ -23,12 +25,95 @@ export default class Game {
 
 	board = new Board();
 
+	private isOnline = false;
+	private isHost = false;
+	private isEventSet = false;
+
 	constructor() {
 		console.log("new Game");
 	}
 
+	private setEvent() {
+		if (this.isEventSet) {
+			return;
+		}
+
+		const conn = connectionStore.getState().connection;
+
+		if (!conn) {
+			return;
+		}
+
+		conn.on("data", (connData) => {
+			const receiveData = (connData as string).split(eventKeySeparator);
+
+			const event = receiveData[0] as DataType;
+			const data = receiveData[1];
+
+			switch (event) {
+				case "place": {
+					const placeData: PlaceEventData = JSON.parse(data);
+
+					this.play(placeData.row, placeData.col, placeData.animal);
+
+					break;
+				}
+				case "pick": {
+					const pickData: PickDataEvent = JSON.parse(data);
+
+					this.selectPions(pickData.row, pickData.col, true);
+
+					break;
+				}
+
+				default:
+					console.error("Error reading event =", event);
+					break;
+			}
+		});
+
+		conn.on("close", () => {
+			appStore.getState().setModal("lostConnection", true);
+
+			console.log("conn lost => nav");
+
+			if (this.isHost) {
+				stopHost();
+			} else {
+				stopConnectionToHost(true);
+			}
+
+			navigateTo("/");
+		});
+
+		conn.on("error", () => {
+			appStore.getState().setModal("errorCode", true);
+
+			console.log("conn error => nav");
+
+			if (this.isHost) {
+				stopHost();
+			} else {
+				stopConnectionToHost(true);
+			}
+
+			navigateTo("/");
+		});
+
+		console.log("Event set");
+
+		this.isEventSet = true;
+	}
+
 	async init(canvasSize: number): Promise<void> {
 		console.log("Init board");
+
+		const connectionStoreState = connectionStore.getState();
+
+		this.isOnline = connectionStoreState.peerId !== null;
+		this.isHost = connectionStoreState.isHost;
+
+		this.setEvent();
 
 		this.board.initBoard(canvasSize);
 
@@ -366,7 +451,7 @@ export default class Game {
 		}
 	}
 
-	private selectPions(row: number, col: number) {
+	private selectPions(row: number, col: number, fromEvent = false) {
 		const player: Player = this.players[this.getTurn()];
 
 		// Cell already played
@@ -381,6 +466,16 @@ export default class Game {
 		this.board.drawBoard();
 
 		player.returnMatou();
+
+		if (!fromEvent) {
+			const pickData: PickDataEvent = {
+				player: player.role,
+				row: row,
+				col: col,
+			};
+
+			sendData("pick", pickData);
+		}
 
 		// Let new play
 		this.setStatus("IDLE");
@@ -411,9 +506,20 @@ export default class Game {
 		}
 	}
 
-	async play(eventX: number, eventY: number) {
-		const { row, col } = this.getPos(eventX, eventY);
+	async playEvent(eventX: number, eventY: number) {
+		// Prevent if the other play when it's opponent turn's
+		if (this.isOnline) {
+			const player = this.isHost ? "gris" : "jaune";
+			if (this.getTurn() !== player) {
+				return;
+			}
+		}
 
+		const { row, col } = this.getPos(eventX, eventY);
+		this.play(row, col);
+	}
+
+	async play(row: number, col: number, pionType: PionType | null = null) {
 		const status = this.getStatus();
 
 		// Let player click on pion
@@ -437,14 +543,9 @@ export default class Game {
 		let animal: Animal;
 
 		const selectedPion = player.getSelectedPion();
+		const pion = pionType ? pionType : selectedPion;
 
-		if (selectedPion === "matou") {
-			player.playMatou();
-			animal = new Matou(this.getTurn());
-		} else if (selectedPion === "minou") {
-			player.playMinou();
-			animal = new Minou(this.getTurn());
-		} else {
+		if (pion !== "matou" && pion !== "minou") {
 			const selectors = document.querySelectorAll(`#${player.role} .sprite-selector`);
 
 			for (const selector of selectors) {
@@ -460,6 +561,14 @@ export default class Game {
 			return;
 		}
 
+		if (pion === "matou") {
+			player.playMatou();
+			animal = new Matou(this.getTurn());
+		} else {
+			player.playMinou();
+			animal = new Minou(this.getTurn());
+		}
+
 		this.getMapAnimal().set(`${row},${col}`, animal);
 
 		this.board.setSpritePos(row, col, animal);
@@ -467,6 +576,18 @@ export default class Game {
 		this.board.drawBoard();
 
 		this.moveOthersSprites(row, col);
+
+		// pionType ? received event => don't resend new move
+		if (!pionType) {
+			const placeData: PlaceEventData = {
+				player: player.role,
+				animal: pion,
+				row: row,
+				col: col,
+			};
+
+			sendData("place", placeData);
+		}
 
 		// Wait animation end
 		await this.board.waitFinishAnimation();
@@ -486,9 +607,8 @@ export default class Game {
 			return;
 		}
 
-		// End of play
-		this.setStatus("IDLE");
-
 		gameStore.getState().addTour();
+
+		this.setStatus("IDLE");
 	}
 }

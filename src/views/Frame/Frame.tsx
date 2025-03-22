@@ -4,6 +4,7 @@ import { Navigate, Route, BrowserRouter as Router, Routes, useNavigate } from "r
 import ModalManager from "components/Modal/ModalManager";
 import ModalProvider from "components/Modal/ModalProvider";
 
+import Connection from "views/Connection/Connection";
 import Home from "views/Home/Home";
 import Landing from "views/Landing/Landing";
 
@@ -25,6 +26,7 @@ export default function Frame() {
 
 					<Routes>
 						<Route path="/" element={<Landing />} />
+						<Route path="/connection" element={<Connection />} />
 						<Route path="/jeu" element={<Home />} />
 						<Route path="*" element={<Navigate to="/" replace />} />
 					</Routes>

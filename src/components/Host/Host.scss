@@ -1,0 +1,40 @@
+#host {
+	#code {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+
+		gap: 1.25rem;
+
+		#left,
+		#flashcode {
+			flex: 1;
+		}
+
+		#peerId {
+			text-align: center;
+
+			font-weight: bold;
+			font-size: 1.25rem;
+			line-height: 1.25rem;
+		}
+
+		#flashcode {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			gap: 0.625rem;
+
+			svg {
+				height: auto;
+				width: 100%;
+				max-width: 100px;
+			}
+
+			#zoom-text {
+				font-size: 0.75rem;
+			}
+		}
+	}
+}

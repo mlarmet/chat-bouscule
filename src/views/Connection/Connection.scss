@@ -1,0 +1,134 @@
+#connection {
+	z-index: 1;
+
+	align-items: center;
+
+	.decoration {
+		bottom: 0;
+		width: 403px;
+	}
+
+	#top {
+		position: relative;
+
+		width: 100%;
+
+		#close {
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+	}
+
+	#connection-content {
+		width: 100%;
+
+		h2 {
+			margin: 0;
+		}
+
+		#switch-tabs {
+			margin: 0 auto;
+
+			display: flex;
+			justify-content: center;
+
+			background-color: var(--color-secondary-default);
+			border-radius: 2rem;
+
+			width: 100%;
+			// max-width: 300px;
+
+			.tab-item {
+				cursor: pointer;
+
+				letter-spacing: 0.3px;
+				line-height: 1.25rem;
+
+				font-size: 1rem;
+
+				flex: 1;
+
+				font-weight: bold;
+
+				border-radius: 2rem;
+
+				padding: 0.5rem 0.25rem;
+
+				color: var(--color-primary-default);
+
+				&.selected {
+					cursor: default;
+
+					color: var(--color-others-dark);
+					background-color: var(--color-primary-default);
+				}
+
+				p {
+					text-align: center;
+					margin: 0;
+				}
+
+				&:disabled {
+					cursor: not-allowed;
+
+					opacity: 0.25;
+				}
+			}
+		}
+
+		#container {
+			flex: 1;
+
+			padding: 0 1.25rem;
+
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+
+			.connection-box {
+				h2,
+				p {
+					margin: 0;
+				}
+
+				.btn {
+					width: 100%;
+				}
+
+				.box-title {
+					line-height: 1.5rem;
+				}
+
+				display: flex;
+				flex-direction: column;
+
+				gap: 2.5rem;
+
+				border-radius: 1rem;
+
+				padding: 1.25rem;
+
+				color: var(--color-others-dark);
+				background-color: var(--color-others-light);
+			}
+		}
+
+		#state {
+			padding: 1.25rem 0;
+
+			@media screen and (min-height: 800px) {
+				padding: 2.5rem 0 0 0;
+			}
+
+			h2 {
+				text-align: center;
+
+				font-size: 1.5rem;
+				line-height: 1.5rem;
+
+				color: var(--color-primary-default);
+			}
+		}
+	}
+}

@@ -1,3 +1,4 @@
+import { useConnectionStore } from "services/connectionStore";
 import { useGameStore } from "services/gameStore";
 
 import Board from "components/Display/Display";
@@ -12,6 +13,9 @@ import "./Home.scss";
 export default function Home() {
 	const turn = useGameStore((state) => state.turn);
 	const tour = useGameStore((state) => state.tour);
+
+	const isHost = useConnectionStore((state) => state.isHost);
+	const peerId = useConnectionStore((state) => state.peerId);
 
 	return (
 		<div id="home" className="view default">
@@ -32,8 +36,15 @@ export default function Home() {
 				<Board />
 
 				<div id="players-infos">
-					<Player player="gris" visible={turn === "gris"} />
-					<Player player="jaune" visible={turn === "jaune"} />
+					{/* Play solo */}
+					{!peerId ? (
+						<>
+							<Player player="gris" visible={turn === "gris"} />
+							<Player player="jaune" visible={turn === "jaune"} />
+						</>
+					) : (
+						<Player player={isHost ? "gris" : "jaune"} visible />
+					)}
 				</div>
 			</div>
 		</div>
