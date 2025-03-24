@@ -48,14 +48,14 @@ export default function Header() {
 
 			{!connection ? (
 				<button id="reset" className="btn valid icon" onClick={handleReset}>
-					<span className="material-icons-round">restart_alt</span>
+					<span className="material-symbols-rounded">restart_alt</span>
 				</button>
 			) : (
 				""
 			)}
 
 			<button id="exit" className="btn alert icon" onClick={handleExit}>
-				<span className="material-icons-round">close</span>
+				<span className="material-symbols-rounded">close</span>
 			</button>
 		</header>
 	);

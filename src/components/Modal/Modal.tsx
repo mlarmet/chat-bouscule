@@ -61,7 +61,7 @@ export default function Modal({ modal, children }: ModalProps) {
 	return (
 		<div className="modal-container" onClick={handleOutClick}>
 			<div className="modal">
-				<button className="material-icons-round cross" onClick={handleCancel}>
+				<button className="material-symbols-rounded cross" onClick={handleCancel}>
 					disabled_by_default
 				</button>
 

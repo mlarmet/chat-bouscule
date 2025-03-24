@@ -31,7 +31,7 @@ export default function QrCode() {
 	return (
 		<div id="qr-code-container" className="modal-container" onClick={handleOutClick}>
 			<div className="modal only-exit">
-				<button className="material-icons-round cross" onClick={handleCancel}>
+				<button className="material-symbols-rounded cross" onClick={handleCancel}>
 					disabled_by_default
 				</button>
 

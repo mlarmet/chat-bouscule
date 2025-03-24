@@ -48,7 +48,7 @@ export default function Join() {
 						disabled={!!connection}
 					/>
 
-					<button id="scanner" className="material-icons-round" onClick={handleScanner} disabled={!!connection}>
+					<button id="scanner" className="material-symbols-rounded" onClick={handleScanner} disabled={!!connection}>
 						qr_code_scanner
 					</button>
 				</div>

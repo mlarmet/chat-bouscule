@@ -114,7 +114,7 @@ export default function CodeReader() {
 	return (
 		<div id="code-reader" className="modal-container" onClick={handleOutClick}>
 			<div className="modal only-exit">
-				<button className="material-icons-round cross" onClick={hideModal}>
+				<button className="material-symbols-rounded cross" onClick={hideModal}>
 					disabled_by_default
 				</button>
 

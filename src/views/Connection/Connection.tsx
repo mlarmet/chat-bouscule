@@ -46,7 +46,7 @@ export default function Connection() {
 
 			<div id="top">
 				<button id="close" className="btn alert icon" onClick={handleClose}>
-					<span className="material-icons-round">close</span>
+					<span className="material-symbols-rounded">close</span>
 				</button>
 
 				<Title small />

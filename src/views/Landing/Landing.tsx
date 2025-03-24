@@ -33,7 +33,7 @@ export default function Landing() {
 	return (
 		<div id="landing" className="view">
 			<button id="credits" className="btn icon" onClick={handleCopyRightClick}>
-				<span className="material-icons-round">question_mark</span>
+				<span className="material-symbols-rounded">question_mark</span>
 			</button>
 
 			<img src={__BASE_URL__ + "/assets/background/background-edited.jpg"} alt="background-image" id="image" className="decoration" />
