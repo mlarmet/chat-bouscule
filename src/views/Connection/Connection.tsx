@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { useConnectionStore } from "services/connectionStore";
 
 import Host from "components/Host/Host";
 import Join from "components/Join/Join";
 import Title from "components/Title/Title";
 
-import background from "assets/background/background-edited.jpg";
-
-import { useConnectionStore } from "services/connectionStore";
-
-import { useNavigate } from "react-router-dom";
 import "./Connection.scss";
 
 export default function Connection() {
@@ -44,7 +42,7 @@ export default function Connection() {
 
 	return (
 		<div id="connection" className="view default">
-			<img src={background} alt="background-image" id="image" className="decoration" />
+			<img src={__BASE_URL__ + "/assets/background/background-edited.jpg"} alt="background-image" id="image" className="decoration" />
 
 			<div id="top">
 				<button id="close" className="btn alert icon" onClick={handleClose}>
