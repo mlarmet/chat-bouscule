@@ -92,6 +92,11 @@ export const gameSettings: GameSettings = {
 			text: "Impossible d'accéder à la caméra. Veuillez réessayer.",
 		},
 
+		errorHost: {
+			title: "Erreur",
+			text: "Impossible de créer la partie. Veuillez réessayer.",
+		},
+
 		lostConnection: {
 			title: "Erreur",
 			text: "L'adversaire à quitté la partie !",

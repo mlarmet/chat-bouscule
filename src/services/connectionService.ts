@@ -190,6 +190,8 @@ export const startHost = () => {
 		hostPeer.on("error", (err) => {
 			console.error("Erreur PeerJS :", err);
 			stopHost();
+
+			appStore.getState().setModal("errorHost", true);
 		});
 
 		setHost(hostPeer);

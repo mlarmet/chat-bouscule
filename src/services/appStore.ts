@@ -25,6 +25,7 @@ const defaultModalData = {
 	qrCodeError: false,
 	errorCamera: false,
 	errorCode: false,
+	errorHost: false,
 	lostConnection: false,
 };
 

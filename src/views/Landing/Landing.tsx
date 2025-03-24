@@ -22,6 +22,7 @@ export default function Landing() {
 		setModal("credit", false);
 		setModal("errorCamera", false);
 		setModal("errorCode", false);
+		setModal("errorHost", false);
 		setModal("qrScan", false);
 		setModal("qrCodeError", false);
 		setModal("qrCode", false);

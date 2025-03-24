@@ -18,7 +18,7 @@ type GameStatus = "IDLE" | "SELECT" | "ROW" | "MOVING" | "WON" | "STOPPED";
 
 // ------- Modal Types -------
 
-type ModalType = "quit" | "reset" | "credit" | "qrCodeError" | "errorCode" | "qrCode" | "qrScan" | "errorCamera" | "lostConnection";
+type ModalType = "quit" | "reset" | "credit" | "qrCodeError" | "errorCode" | "qrCode" | "qrScan" | "errorCamera" | "errorHost" | "lostConnection";
 
 type ModalProperties = {
 	title: string;
