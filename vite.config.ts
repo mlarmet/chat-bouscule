@@ -23,6 +23,9 @@ export default defineConfig({
 			registerType: "autoUpdate",
 			manifest: false,
 			workbox: {
+				cleanupOutdatedCaches: true, // Remove old caches
+				skipWaiting: true, // Force app to load the new version on refresh
+				clientsClaim: true, // All pages opened use the new version (don't need to close session)
 				globPatterns: ["**/*.{js,css,html,svg,ico,png,jpg,mp3}"],
 				// Cache google fonts
 				runtimeCaching: [
