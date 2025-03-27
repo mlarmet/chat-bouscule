@@ -99,7 +99,7 @@ export const gameSettings: GameSettings = {
 
 		lostConnection: {
 			title: "Erreur",
-			text: "L'adversaire à quitté la partie !",
+			text: "L'adversaire a quitté la partie !",
 		},
 
 		qrCode: undefined,
