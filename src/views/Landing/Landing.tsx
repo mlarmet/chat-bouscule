@@ -47,7 +47,7 @@ export default function Landing() {
 				<Link to="/connection" className="btn primary rounded">
 					Jouer
 				</Link>
-				<Link to="/jeu" className="btn secondary" onClick={() => connectionStore.getState().setPeerId(null)}>
+				<Link to="/jeu" className="btn secondary" onClick={() => connectionStore.getState().resetConnection()}>
 					Jouer en local
 				</Link>
 			</div>
