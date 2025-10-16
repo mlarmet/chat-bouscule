@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { useAppStore } from "services/appStore";
+import { connectionStore } from "services/connectionStore";
 
 import Title from "components/Title/Title";
 
@@ -46,7 +47,7 @@ export default function Landing() {
 				<Link to="/connection" className="btn primary rounded">
 					Jouer
 				</Link>
-				<Link to="/jeu" className="btn secondary">
+				<Link to="/jeu" className="btn secondary" onClick={() => connectionStore.getState().setPeerId(null)}>
 					Jouer en local
 				</Link>
 			</div>
